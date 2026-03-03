@@ -6,7 +6,7 @@ import streamlit as st
 st.set_page_config(page_title="La Serena SmartCity", page_icon="🌐", layout="wide")
 
 # ==========================================
-# 2. ESTILOS: EFECTO VIDRIO (GLASSMORPHISM)
+# 2. ESTILOS: GLASSMORPHISM (VIDRIOSO)
 # ==========================================
 st.markdown("""
     <style>
@@ -20,19 +20,19 @@ st.markdown("""
         padding: 20px 0;
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
         .smart-grid { grid-template-columns: 1fr; }
     }
     
     .mosaico-card {
         border-radius: 20px;
-        padding: 30px;
+        padding: 25px;
         color: white !important;
         text-decoration: none !important;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 200px;
+        min-height: 190px;
         
         /* Efecto Vidrio */
         backdrop-filter: blur(10px);
@@ -49,6 +49,7 @@ st.markdown("""
         filter: brightness(1.1);
     }
     
+    /* Estilo para servicios EN DESARROLLO */
     .card-desactivada {
         background: rgba(233, 236, 239, 0.6) !important;
         color: #ADB5BD !important;
@@ -59,50 +60,51 @@ st.markdown("""
     .card-desactivada .card-title, .card-desactivada .card-desc { color: #ADB5BD !important; }
 
     .card-icon { font-size: 3.5em; margin-bottom: 12px; }
-    .card-title { font-size: 1.5em; font-weight: bold; margin-bottom: 8px; color: white; }
-    .card-desc { font-size: 1em; opacity: 0.9; line-height: 1.3; color: white; }
-    
-    /* Control de logos en cabecera */
-    .header-logo {
-        max-height: 90px;
-        width: auto;
-    }
+    .card-title { font-size: 1.4em; font-weight: bold; margin-bottom: 8px; color: white; line-height: 1.1; }
+    .card-desc { font-size: 0.95em; opacity: 0.9; line-height: 1.3; color: white; }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA CON LOGOS DESDE LA RAÍZ
+# 3. CABECERA CON LOGOS EQUILIBRADOS
 # ==========================================
 col_titulo, col_logos = st.columns([2, 1.2])
 
 with col_titulo:
     st.markdown("<h1 style='color: #003366; margin-bottom: 0px;'>🌐 La Serena SmartCity</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #666; font-size: 1.2em;'>Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #666; font-size: 1.1em;'>Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</p>", unsafe_allow_html=True)
 
 with col_logos:
     c1, c2 = st.columns(2)
+    # Cargamos los archivos logo_muni.png y logo_innovacion.png desde la raíz
     with c1:
-        # Cargamos logo municipal (rojo) desde la raíz
-        st.image("logo_muni.png", width=150) 
+        st.image("logo_muni.png", width=140) 
     with c2:
-        # Cargamos logo innovación desde la raíz
-        st.image("logo_innovacion.png", width=150)
+        # El CSS ayuda a disimular el fondo si el PNG no es transparente
+        st.image("logo_innovacion.png", width=140)
 
 st.divider()
 
 # ==========================================
-# 4. EL MOSAICO 3x3 (9 SERVICIOS)
+# 4. RADIO SIMPLIFICADA (AUDIO DIRECTO)
+# ==========================================
+st.markdown("<p style='color: #D62828; font-weight: bold; margin-bottom: 5px;'>📻 Radio Digital Municipal En Vivo:</p>", unsafe_allow_html=True)
+# Stream directo para mayor estabilidad
+st.audio("https://az11.yesstreaming.net/radio/8010/radio.mp3", format="audio/mp3")
+
+# ==========================================
+# 5. EL MOSAICO 3x3 (9 SERVICIOS)
 # ==========================================
 servicios = [
-    {"icon": "🏢", "title": "Acceso Edificio Consistorial", "desc": "Seguridad y bitácora digital de visitas.", "bg": "linear-gradient(135deg, #1E6091 0%, #114871 100%)", "link": "https://puertaserena.streamlit.app", "dev": False},
-    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación.", "bg": "linear-gradient(135deg, #D62828 0%, #A31B1B 100%)", "link": "#", "dev": False},
-    {"icon": "📡", "title": "Sentinel Faro", "desc": "Social Listening y monitoreo comunal.", "bg": "linear-gradient(135deg, #7209B7 0%, #5A0693 100%)", "link": "#", "dev": False},
-    {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo de la Radio Digital Municipal La Serena.", "bg": "linear-gradient(135deg, #F77F00 0%, #C66600 100%)", "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena", "dev": False},
+    {"icon": "🏢", "title": "Acceso Edificio Consistorial", "desc": "Seguridad y bitácora digital de visitas municipales.", "bg": "linear-gradient(135deg, #1E6091 0%, #114871 100%)", "link": "https://puertaserena.streamlit.app", "dev": False},
+    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "bg": "linear-gradient(135deg, #D62828 0%, #A31B1B 100%)", "link": "#", "dev": False},
+    {"icon": "📡", "title": "Sentinel Faro", "desc": "Sistema inteligente de Social Listening comunal.", "bg": "linear-gradient(135deg, #7209B7 0%, #5A0693 100%)", "link": "#", "dev": False},
+    {"icon": "🎙️", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación municipal.", "bg": "linear-gradient(135deg, #F77F00 0%, #C66600 100%)", "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena", "dev": False},
     {"icon": "🎭", "title": "Protocolo y Eventos", "desc": "Gestión institucional y eventos municipales.", "bg": "linear-gradient(135deg, #2A9D8F 0%, #1F796E 100%)", "link": "#", "dev": False},
     {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios.", "bg": "linear-gradient(135deg, #184E77 0%, #0E3655 100%)", "link": "#", "dev": False},
     {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "bg": "linear-gradient(135deg, #38B000 0%, #2A8700 100%)", "link": "#", "dev": False},
     {"icon": "⛱️", "title": "Playas y Humedales", "desc": "MONITOREO AMBIENTAL - EN DESARROLLO", "bg": "#E9ECEF", "link": "#", "dev": True},
-    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "TRÁNSITO Y LUMINARIAS - EN DESARROLLO", "bg": "#E9ECEF", "link": "#", "dev": True}
+    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "TRÁNSITO, LUMINARIAS Y BACHES - EN DESARROLLO", "bg": "#E9ECEF", "link": "#", "dev": True}
 ]
 
 html_grid = "<div class='smart-grid'>"
