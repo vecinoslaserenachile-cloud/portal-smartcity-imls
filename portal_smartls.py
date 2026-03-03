@@ -1,9 +1,9 @@
 import streamlit as st
 
-# 1. CONFIGURACIÓN DEL PORTAL CON FAVICON INSTITUCIONAL
+# 1. CONFIGURACIÓN DEL PORTAL
 st.set_page_config(page_title="La Serena SmartCity", page_icon="🏛️", layout="wide")
 
-# 2. MOTOR GRÁFICO BLINDADO (CSS)
+# 2. MOTOR GRÁFICO PROFESIONAL (CSS)
 st.markdown("""
     <style>
     .stApp { background-color: #F0F2F5; }
@@ -31,7 +31,7 @@ st.markdown("""
     }
     .tile:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); filter: brightness(1.1); }
     
-    /* Baldosas en Desarrollo (Estilo Transparente) */
+    /* Baldosas en Desarrollo */
     .tile-dev {
         background: rgba(255, 255, 255, 0.7);
         border: 2px dashed #BDC3C7;
@@ -61,7 +61,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. CABECERA INSTITUCIONAL
+# 3. CABECERA
 col1, col2 = st.columns([1, 7])
 with col1:
     st.markdown("<div style='font-size: 70px; text-align: center;'>🏛️</div>", unsafe_allow_html=True)
@@ -71,19 +71,19 @@ with col2:
 
 st.divider()
 
-# 4. TABLERO DE CONTROL (MOSAICO COMPRIMIDO)
+# 4. TABLERO DE CONTROL ACTUALIZADO
 mosaico = f"""<div class="metro-grid">
     <a href="https://puertaserena.streamlit.app/" target="_blank" class="tile wide bg-blue">
         <div><div class="t-icon">🏢</div><div class="t-title">Acceso Edificio Consistorial</div></div>
-        <div class="t-sub">Control de seguridad y bitácora digital de visitas para el recinto municipal.</div>
+        <div class="t-sub">Control de seguridad y bitácora digital de visitas.</div>
     </a>
     <a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="tile large bg-red">
         <div><div class="t-icon">🌐</div><div class="t-title">Portal RDMLS Integral</div></div>
-        <div class="t-sub">Plataforma ciudadana con radio, georeferenciación y herramientas interactivas.</div>
+        <div class="t-sub">Radio, georeferenciación y herramientas multimedia ciudadanas.</div>
     </a>
     <a href="https://monitor-laserena.streamlit.app/" target="_blank" class="tile wide bg-purple">
         <div><div class="t-icon">📡</div><div class="t-title">Sentinel Faro</div></div>
-        <div class="t-sub">Sistema inteligente de Social Listening y monitoreo de datos comunales.</div>
+        <div class="t-sub">Social Listening e inteligencia de datos comunales.</div>
     </a>
     <a href="https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena" target="_blank" class="tile bg-orange">
         <div><div class="t-icon">🎙️</div><div class="t-title">Señal RDMLS</div></div>
@@ -91,25 +91,31 @@ mosaico = f"""<div class="metro-grid">
     </a>
     <a href="https://vecinoslaserenachile-cloud.github.io/serenito-app/" target="_blank" class="tile bg-teal">
         <div><div class="t-icon">🎭</div><div class="t-title">Protocolo y Eventos</div></div>
-        <div class="t-sub">Gestión institucional y eventos.</div>
+        <div class="t-sub">Gestión institucional y eventos municipales.</div>
     </a>
     <a href="https://vecinoslaserenachile-cloud.github.io/portal-induccion-imls/" target="_blank" class="tile bg-blue">
         <div><div class="t-icon">🎓</div><div class="t-title">Inducción E-Learning</div></div>
-        <div class="t-sub">Capacitación para funcionarios.</div>
+        <div class="t-sub">Plataforma de capacitación funcionaria.</div>
     </a>
     <a href="https://honorarios-ls-me.streamlit.app/" target="_blank" class="tile bg-green">
         <div><div class="t-icon">📄</div><div class="t-title">Informes Honorarios</div></div>
-        <div class="t-sub">Generador automático de reportes.</div>
+        <div class="t-sub">Generador de reportes de servicios.</div>
     </a>
+    
     <div class="tile tile-dev">
         <div class="badge-dev">PRÓXIMAMENTE</div>
-        <div><div class="t-icon" style="filter: grayscale(1);">🏗️</div><div class="t-title">Portal de Pagos Online</div></div>
-        <div class="t-sub">Módulo de Rentas y Patentes en desarrollo.</div>
+        <div><div class="t-icon" style="filter: grayscale(1);">🏖️</div><div class="t-title">Playas y Humedales</div></div>
+        <div class="t-sub">Monitoreo ambiental de ecosistemas costeros.</div>
     </div>
     <div class="tile tile-dev">
         <div class="badge-dev">PRÓXIMAMENTE</div>
         <div><div class="t-icon" style="filter: grayscale(1);">🚍</div><div class="t-title">Smart Transito LS</div></div>
-        <div class="t-sub">Monitoreo de flujo vehicular.</div>
+        <div class="t-sub">Monitoreo de flujo vehicular y rutas.</div>
+    </div>
+    <div class="tile tile-dev">
+        <div class="badge-dev">PRÓXIMAMENTE</div>
+        <div><div class="t-icon" style="filter: grayscale(1);">🏗️</div><div class="t-title">Portal de Pagos Online</div></div>
+        <div class="t-sub">Módulo de Rentas y Patentes.</div>
     </div>
 </div>"""
 
