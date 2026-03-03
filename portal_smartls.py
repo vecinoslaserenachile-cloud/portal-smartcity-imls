@@ -53,12 +53,14 @@ st.markdown("""
     .tile-subtitle { font-size: 0.9em; opacity: 0.95; font-weight: 400; }
     
     /* Paleta de Colores Institucionales */
-    .bg-alcaldia { background-color: #1A365D; } /* Azul oscuro elegante */
-    .bg-radio { background-color: #E53E3E; } /* Rojo vivo */
-    .bg-turismo { background-color: #DD6B20; } /* Naranja cálido */
+    .bg-alcaldia { background-color: #1A365D; } /* Azul oscuro */
+    .bg-radio { background-color: #E53E3E; } /* Rojo */
+    .bg-turismo { background-color: #DD6B20; } /* Naranja */
     .bg-educacion { background-color: #3182CE; } /* Azul claro */
     .bg-transito { background-color: #38B2AC; } /* Turquesa */
-    .bg-vecinos { background-color: #38A169; } /* Verde ciudadano */
+    .bg-vecinos { background-color: #38A169; } /* Verde */
+    .bg-purple { background-color: #805AD5; } /* Morado tecnológico */
+    .bg-orange { background-color: #ED8936; } /* Naranja claro */
     
     /* Ajuste responsivo para móviles */
     @media (max-width: 768px) {
@@ -80,57 +82,65 @@ with col_texto:
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO (SERVICIOS)
+# 4. CONSTRUCCIÓN DEL MOSAICO (SERVICIOS REALES)
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
 
-    <a href="#" target="_blank" class="metro-tile tile-wide bg-alcaldia">
+    <a href="https://puertaserena.streamlit.app/" target="_blank" class="metro-tile tile-wide bg-alcaldia">
         <div>
             <div class="tile-icon">🏛️</div>
-            <div class="tile-title">Control Edificio Consistorial</div>
+            <div class="tile-title">Piloto Acceso Edificio Consistorial</div>
         </div>
         <div class="tile-subtitle">Sistema de seguridad, registro de visitas y panel de guardia.</div>
     </a>
 
-    <a href="#" target="_blank" class="metro-tile tile-large bg-radio">
+    <a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="metro-tile tile-large bg-radio">
+        <div>
+            <div class="tile-icon">🌐</div>
+            <div class="tile-title">Portal RDMLS Integral</div>
+        </div>
+        <div class="tile-subtitle">Radio, georeferenciación y herramientas multimedia para interactuar con los vecinos de la comuna.</div>
+    </a>
+
+    <a href="https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena" target="_blank" class="metro-tile bg-orange">
         <div>
             <div class="tile-icon">🎙️</div>
-            <div class="tile-title">Radio Digital Municipal (RDMLS)</div>
+            <div class="tile-title">Señal Radial RDMLS</div>
         </div>
-        <div class="tile-subtitle">Transmisión oficial, noticias y conexión directa con la comunidad.</div>
+        <div class="tile-subtitle">Escucha la transmisión en vivo y directo.</div>
     </a>
 
-    <a href="#" target="_blank" class="metro-tile bg-turismo">
+    <a href="https://monitor-laserena.streamlit.app/" target="_blank" class="metro-tile tile-wide bg-purple">
         <div>
-            <div class="tile-icon">🚶‍♂️</div>
-            <div class="tile-title">Paseo Histórico 3D</div>
+            <div class="tile-icon">📡</div>
+            <div class="tile-title">Sentinel Faro</div>
         </div>
-        <div class="tile-subtitle">Recorre la ciudad virtualmente guiado por Serenito.</div>
+        <div class="tile-subtitle">Monitor de Social Listening e inteligencia de datos comunal.</div>
     </a>
 
-    <a href="#" target="_blank" class="metro-tile bg-educacion">
+    <a href="https://vecinoslaserenachile-cloud.github.io/serenito-app/" target="_blank" class="metro-tile bg-turismo">
         <div>
-            <div class="tile-icon">📚</div>
-            <div class="tile-title">Cursos de Inglés</div>
+            <div class="tile-icon">🎭</div>
+            <div class="tile-title">Protocolo y Eventos</div>
         </div>
-        <div class="tile-subtitle">Capacitación y material de estudio para ciudadanos.</div>
+        <div class="tile-subtitle">Plataforma oficial de gestión de eventos con Serenito.</div>
     </a>
 
-    <a href="#" target="_blank" class="metro-tile tile-wide bg-transito">
+    <a href="https://vecinoslaserenachile-cloud.github.io/portal-induccion-imls/" target="_blank" class="metro-tile bg-educacion">
         <div>
-            <div class="tile-icon">🗺️</div>
-            <div class="tile-title">Rutas y Distancias Regionales</div>
+            <div class="tile-icon">🎓</div>
+            <div class="tile-title">Inducción E-Learning</div>
         </div>
-        <div class="tile-subtitle">Conexión con Vicuña, Andacollo, Punta de Choros, Ovalle, Illapel, Parque Fray Jorge, Algarrobito y Coquimbo.</div>
+        <div class="tile-subtitle">Plataforma de capacitación para funcionarios nuevos.</div>
     </a>
 
-    <a href="#" target="_blank" class="metro-tile bg-vecinos">
+    <a href="https://honorarios-ls-me.streamlit.app/" target="_blank" class="metro-tile bg-transito">
         <div>
-            <div class="tile-icon">🤝</div>
-            <div class="tile-title">Atención Vecinos</div>
+            <div class="tile-icon">📄</div>
+            <div class="tile-title">Informes Honorarios</div>
         </div>
-        <div class="tile-subtitle">Gestión comunitaria y plataformas vecinales.</div>
+        <div class="tile-subtitle">Generador automático de reportes para prestadores de servicios.</div>
     </a>
 
 </div>
