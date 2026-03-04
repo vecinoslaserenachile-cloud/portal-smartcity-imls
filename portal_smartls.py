@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import os
 
 # ==========================================
 # 1. CONFIGURACIÓN DEL PORTAL
@@ -87,18 +88,28 @@ st.markdown("""
 # ==========================================
 # 3. CABECERA: LOGOS DOBLES, RELOJ EN VIVO Y QR
 # ==========================================
-# Ajustamos las columnas para que los dos logos entren perfectos a la izquierda
 col_logo1, col_logo2, col_texto, col_qr = st.columns([1, 1, 6, 1.5])
 
+# Función robusta para encontrar la imagen sin importar mayúsculas/minúsculas
+def cargar_logo_robusto(nombre_base):
+    variaciones = [
+        f"{nombre_base}.png", f"{nombre_base}.PNG", 
+        f"{nombre_base.capitalize()}.png", f"{nombre_base.capitalize()}.PNG",
+        f"{nombre_base.upper()}.PNG", f"{nombre_base.lower()}.png",
+        f"Logo_{nombre_base.split('_')[1] if '_' in nombre_base else nombre_base}.png"
+    ]
+    for ruta in variaciones:
+        if os.path.exists(ruta):
+            st.image(ruta, use_container_width=True)
+            return True
+    return False
+
 with col_logo1:
-    try:
-        st.image("logo_municipio.png", use_container_width=True)
-    except:
-        st.write("") # Espacio vacío si no encuentra la imagen
+    if not cargar_logo_robusto("logo_municipio"):
+        st.write("") # Mantiene la estructura si definitivamente no está
+
 with col_logo2:
-    try:
-        st.image("logo_innovacion.png", use_container_width=True)
-    except:
+    if not cargar_logo_robusto("logo_innovacion"):
         st.write("")
 
 with col_texto:
