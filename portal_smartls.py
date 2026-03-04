@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 # ==========================================
 # 1. CONFIGURACIÓN DEL PORTAL
@@ -6,97 +7,124 @@ import streamlit as st
 st.set_page_config(page_title="La Serena SmartCity", page_icon="🌐", layout="wide")
 
 # ==========================================
-# 2. MOTOR GRÁFICO TIPO METRO (MOSAICO CORREGIDO)
+# 2. MOTOR GRÁFICO (ELEGANCIA Y RESPONSIVIDAD)
 # ==========================================
 st.markdown("""
     <style>
-    .stApp { background-color: #F4F6F9; }
+    .stApp { background-color: #F8FAFC; }
     
-    /* Ocultar subrayados de enlaces por defecto del navegador */
     a { text-decoration: none !important; }
     
     .metro-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas exactas */
         grid-auto-rows: 150px;
-        grid-auto-flow: dense; /* EL SECRETO: Hace que los bloques encajen como Tetris sin dejar huecos */
-        gap: 15px;
+        gap: 18px;
         padding: 20px 0;
     }
     
     .metro-tile {
         color: white !important;
-        text-decoration: none !important;
-        padding: 20px;
-        border-radius: 8px;
+        padding: 22px;
+        border-radius: 12px; /* Bordes más suaves y elegantes */
         font-family: 'Segoe UI', sans-serif;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        cursor: pointer;
-        height: 100%;
-        border: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
     }
     
-    .metro-tile * {
-        text-decoration: none !important;
-        color: white !important;
-    }
+    .metro-tile * { text-decoration: none !important; color: white !important; }
     
+    /* Efecto Glow/Flash al pasar el cursor */
     .metro-tile:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        transform: scale(1.02) translateY(-4px);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+        filter: brightness(1.1);
     }
     
     .tile-wide { grid-column: span 2; }
     .tile-large { grid-column: span 2; grid-row: span 2; }
     
-    .tile-icon { font-size: 2.2em; margin-bottom: 5px; }
-    .tile-title { font-weight: 700; font-size: 1.2em; line-height: 1.2; margin-bottom: 5px; }
-    .tile-subtitle { font-size: 0.85em; opacity: 0.95; font-weight: 400; }
+    .tile-icon { font-size: 2.4em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+    .tile-subtitle { font-size: 0.85em; opacity: 0.9; font-weight: 400; }
     
-    .bg-alcaldia { background-color: #1A365D; } 
-    .bg-radio { background-color: #E53E3E; } 
-    .bg-turismo { background-color: #DD6B20; } 
-    .bg-educacion { background-color: #3182CE; } 
-    .bg-transito { background-color: #38B2AC; } 
-    .bg-vecinos { background-color: #38A169; } 
-    .bg-orange { background-color: #DD6B20; }
-    .bg-purple { background-color: #805AD5; }
-    .bg-teal { background-color: #319795; }
-    .bg-darkred { background-color: #9B2C2C; }
-    .bg-eco { background-color: #2F855A; } 
+    /* Degradados premium para recuperar la elegancia */
+    .bg-alcaldia { background: linear-gradient(135deg, #1A365D 0%, #2B6CB0 100%); } 
+    .bg-radio { background: linear-gradient(135deg, #C53030 0%, #E53E3E 100%); } 
+    .bg-turismo { background: linear-gradient(135deg, #C05621 0%, #ED8936 100%); } 
+    .bg-educacion { background: linear-gradient(135deg, #2B6CB0 0%, #4299E1 100%); } 
+    .bg-transito { background: linear-gradient(135deg, #285E61 0%, #38B2AC 100%); } 
+    .bg-vecinos { background: linear-gradient(135deg, #276749 0%, #48BB78 100%); } 
+    .bg-orange { background: linear-gradient(135deg, #9C4221 0%, #DD6B20 100%); }
+    .bg-purple { background: linear-gradient(135deg, #553C9A 0%, #805AD5 100%); }
+    .bg-teal { background: linear-gradient(135deg, #234E52 0%, #319795 100%); }
+    .bg-darkred { background: linear-gradient(135deg, #742A2A 0%, #9B2C2C 100%); }
+    .bg-eco { background: linear-gradient(135deg, #22543D 0%, #38A169 100%); } 
     
+    /* Estabilidad en Dispositivos Móviles */
+    @media (max-width: 1024px) {
+        .metro-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 768px) {
+        .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
         .tile-wide, .tile-large { grid-column: span 1; grid-row: span 1; }
+        .metro-tile { min-height: 130px; }
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA CON LOGOS Y QR RESTAURADOS
+# 3. CABECERA: LOGOS, RELOJ EN VIVO Y QR
 # ==========================================
-col_logo1, col_texto, col_qr = st.columns([1.5, 6, 1.5])
+col_logo, col_texto, col_qr = st.columns([1.5, 6, 1.5])
 
-with col_logo1:
-    # AQUÍ VAN TUS LOGOS INSTITUCIONALES (Puedes reemplazar el link por tus imágenes reales)
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Escudo_de_La_Serena.svg/800px-Escudo_de_La_Serena.svg.png", width=90)
+with col_logo:
+    # Llama directamente a tus archivos en GitHub
+    try:
+        st.image("logo_municipio.png", width=110)
+    except:
+        pass
+    try:
+        st.image("logo_innovacion.png", width=110)
+    except:
+        pass
 
 with col_texto:
-    st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
-    st.markdown("<h4 style='color: #718096; margin-top: 0; text-align: center;'>Portal de Servicios Integrados | I.M. La Serena</h4>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
+    
+    # Reloj en vivo con HTML/JS
+    reloj_html = """
+    <div id="reloj_smart" style="font-family: 'Segoe UI', sans-serif; font-size: 1.15em; color: #4A5568; text-align: center; font-weight: 500; margin-top: 5px;"></div>
+    <script>
+    function actualizarReloj() {
+        var hoy = new Date();
+        var opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var fecha = hoy.toLocaleDateString('es-CL', opciones);
+        var hora = hoy.toLocaleTimeString('es-CL');
+        // Capitalizar la primera letra del día
+        fecha = fecha.charAt(0).toUpperCase() + fecha.slice(1);
+        document.getElementById('reloj_smart').innerHTML = '📍 La Serena | ' + fecha + ' | 🕒 ' + hora;
+    }
+    setInterval(actualizarReloj, 1000);
+    actualizarReloj();
+    </script>
+    """
+    components.html(reloj_html, height=40)
 
 with col_qr:
-    # AQUÍ VA TU CÓDIGO QR (Reemplaza el link por tu imagen de QR)
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png", width=90)
-    st.caption("Escanear Portal")
+    # Generador automático de QR hacia tu portal
+    qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://app-smartcity-imls.streamlit.app/"
+    st.image(qr_url, width=120)
+    st.markdown("<p style='text-align: left; font-size: 0.85em; color: #4A5568; font-weight: bold; margin-left: 5px;'>📱 Escanea y Entra</p>", unsafe_allow_html=True)
 
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO HTML (Sin Subrayados)
+# 4. CONSTRUCCIÓN DEL MOSAICO HTML (Matemática perfecta)
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
@@ -108,7 +136,7 @@ mosaico_html = """
 
 <a href="https://vecinoslaserenachile-cloud.github.io/serenito-app/" target="_blank" class="metro-tile bg-turismo">
 <div><div class="tile-icon">🏰</div><div class="tile-title">Paseo 3D Serenito</div></div>
-<div class="tile-subtitle">Explora los tesoros históricos y personajes de la ciudad.</div>
+<div class="tile-subtitle">Explora los tesoros históricos de la ciudad.</div>
 </a>
 
 <a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="metro-tile tile-large bg-radio">
@@ -138,12 +166,12 @@ mosaico_html = """
 
 <a href="#" class="metro-tile tile-wide bg-orange">
 <div><div class="tile-icon">🚧</div><div class="tile-title">Monitor Vial y Tránsito</div></div>
-<div class="tile-subtitle">🚧 En Desarrollo: Georeferenciación de baches, luminarias, vehículos en pana y abandonados.</div>
+<div class="tile-subtitle">🚧 En Desarrollo: Georeferenciación de baches, luminarias y vehículos.</div>
 </a>
 
 <a href="#" class="metro-tile bg-eco">
 <div><div class="tile-icon">🌱</div><div class="tile-title">Cuidado Ambiental</div></div>
-<div class="tile-subtitle">🚧 En Desarrollo: Reporte y protección de humedales, playas, ríos y entorno ecológico.</div>
+<div class="tile-subtitle">🚧 En Desarrollo: Protección de humedales y entorno ecológico.</div>
 </a>
 
 </div>
