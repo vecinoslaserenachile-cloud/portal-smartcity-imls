@@ -17,7 +17,7 @@ st.markdown("""
     
     .metro-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas exactas */
+        grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: 150px;
         gap: 18px;
         padding: 20px 0;
@@ -26,7 +26,7 @@ st.markdown("""
     .metro-tile {
         color: white !important;
         padding: 22px;
-        border-radius: 12px; /* Bordes más suaves y elegantes */
+        border-radius: 12px;
         font-family: 'Segoe UI', sans-serif;
         display: flex;
         flex-direction: column;
@@ -38,11 +38,18 @@ st.markdown("""
     
     .metro-tile * { text-decoration: none !important; color: white !important; }
     
-    /* Efecto Glow/Flash al pasar el cursor */
-    .metro-tile:hover {
+    /* Efecto Glow/Flash solo para botones activos */
+    a.metro-tile:hover {
         transform: scale(1.02) translateY(-4px);
         box-shadow: 0 15px 25px rgba(0,0,0,0.2);
         filter: brightness(1.1);
+    }
+    
+    /* Clase especial para botones en desarrollo (no clickeables) */
+    .disabled-tile {
+        cursor: default;
+        opacity: 0.85;
+        filter: grayscale(20%);
     }
     
     .tile-wide { grid-column: span 2; }
@@ -52,7 +59,7 @@ st.markdown("""
     .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
     .tile-subtitle { font-size: 0.85em; opacity: 0.9; font-weight: 400; }
     
-    /* Degradados premium para recuperar la elegancia */
+    /* Degradados premium */
     .bg-alcaldia { background: linear-gradient(135deg, #1A365D 0%, #2B6CB0 100%); } 
     .bg-radio { background: linear-gradient(135deg, #C53030 0%, #E53E3E 100%); } 
     .bg-turismo { background: linear-gradient(135deg, #C05621 0%, #ED8936 100%); } 
@@ -78,25 +85,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA: LOGOS, RELOJ EN VIVO Y QR
+# 3. CABECERA: LOGOS DOBLES, RELOJ EN VIVO Y QR
 # ==========================================
-col_logo, col_texto, col_qr = st.columns([1.5, 6, 1.5])
+# Ajustamos las columnas para que los dos logos entren perfectos a la izquierda
+col_logo1, col_logo2, col_texto, col_qr = st.columns([1, 1, 6, 1.5])
 
-with col_logo:
-    # Llama directamente a tus archivos en GitHub
+with col_logo1:
     try:
-        st.image("logo_municipio.png", width=110)
+        st.image("logo_municipio.png", use_container_width=True)
     except:
-        pass
+        st.write("") # Espacio vacío si no encuentra la imagen
+with col_logo2:
     try:
-        st.image("logo_innovacion.png", width=110)
+        st.image("logo_innovacion.png", use_container_width=True)
     except:
-        pass
+        st.write("")
 
 with col_texto:
     st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
     
-    # Reloj en vivo con HTML/JS
     reloj_html = """
     <div id="reloj_smart" style="font-family: 'Segoe UI', sans-serif; font-size: 1.15em; color: #4A5568; text-align: center; font-weight: 500; margin-top: 5px;"></div>
     <script>
@@ -105,7 +112,6 @@ with col_texto:
         var opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         var fecha = hoy.toLocaleDateString('es-CL', opciones);
         var hora = hoy.toLocaleTimeString('es-CL');
-        // Capitalizar la primera letra del día
         fecha = fecha.charAt(0).toUpperCase() + fecha.slice(1);
         document.getElementById('reloj_smart').innerHTML = '📍 La Serena | ' + fecha + ' | 🕒 ' + hora;
     }
@@ -116,7 +122,6 @@ with col_texto:
     components.html(reloj_html, height=40)
 
 with col_qr:
-    # Generador automático de QR hacia tu portal
     qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://app-smartcity-imls.streamlit.app/"
     st.image(qr_url, width=120)
     st.markdown("<p style='text-align: left; font-size: 0.85em; color: #4A5568; font-weight: bold; margin-left: 5px;'>📱 Escanea y Entra</p>", unsafe_allow_html=True)
@@ -124,7 +129,7 @@ with col_qr:
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO HTML (Matemática perfecta)
+# 4. CONSTRUCCIÓN DEL MOSAICO HTML
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
@@ -135,8 +140,8 @@ mosaico_html = """
 </a>
 
 <a href="https://vecinoslaserenachile-cloud.github.io/serenito-app/" target="_blank" class="metro-tile bg-turismo">
-<div><div class="tile-icon">🏰</div><div class="tile-title">Paseo 3D Serenito</div></div>
-<div class="tile-subtitle">Explora los tesoros históricos de la ciudad.</div>
+<div><div class="tile-icon">🎭</div><div class="tile-title">Eventos y Protocolos</div></div>
+<div class="tile-subtitle">Gestión interna de eventos, protocolo y relaciones públicas.</div>
 </a>
 
 <a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="metro-tile tile-large bg-radio">
@@ -164,15 +169,21 @@ mosaico_html = """
 <div class="tile-subtitle">Escucha digital y tendencias en redes.</div>
 </a>
 
-<a href="#" class="metro-tile tile-wide bg-orange">
+<div class="metro-tile tile-wide bg-orange disabled-tile">
 <div><div class="tile-icon">🚧</div><div class="tile-title">Monitor Vial y Tránsito</div></div>
-<div class="tile-subtitle">🚧 En Desarrollo: Georeferenciación de baches, luminarias y vehículos.</div>
-</a>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Georeferenciación de baches, luminarias y vehículos.</div>
+</div>
+</div>
 
-<a href="#" class="metro-tile bg-eco">
+<div class="metro-tile bg-eco disabled-tile">
 <div><div class="tile-icon">🌱</div><div class="tile-title">Cuidado Ambiental</div></div>
-<div class="tile-subtitle">🚧 En Desarrollo: Protección de humedales y entorno ecológico.</div>
-</a>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Protección de humedales y entorno ecológico.</div>
+</div>
+</div>
 
 </div>
 """
