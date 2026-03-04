@@ -1,6 +1,4 @@
 import streamlit as st
-import qrcode
-from io import BytesIO
 
 # ==========================================
 # 1. CONFIGURACIÓN Y FAVICON (🔴)
@@ -76,7 +74,6 @@ st.markdown("""
 # ==========================================
 # 3. CABECERA ALINEADA (90px de altura)
 # ==========================================
-# Forzamos proporciones y alturas en el header
 col_info, col_logo1, col_logo2 = st.columns([2, 0.6, 0.6])
 
 with col_info:
@@ -88,7 +85,6 @@ with col_info:
     """, unsafe_allow_html=True)
 
 with col_logo1:
-    # Se cargan proporcionalmente desde la raíz
     st.image("logo_muni.png", use_container_width=True) 
 
 with col_logo2:
@@ -97,7 +93,7 @@ with col_logo2:
 st.divider()
 
 # ==========================================
-# 4. MÓDULO QR CENTRAL Y ORGÁNICO
+# 4. MÓDULO QR (LIGERO Y SIN LIBRERÍAS)
 # ==========================================
 st.markdown("### 📲 Acceso Rápido: Escanee para interactuar con el portal")
 
@@ -108,20 +104,14 @@ with col_asistente:
     st.caption("<p style='text-align: center; color: #D32F2F; font-weight: bold;'>Serenito SmartBot</p>", unsafe_allow_html=True)
 
 with col_qr:
-    # Generamos el QR de forma nativa para el portal interactivo
-    portal_url = "https://rdmls.streamlit.app" # URL pública del portal
-    qr_image = qrcode.make(portal_url)
-    
-    # Lo convertimos a bytes para Streamlit
-    buf = BytesIO()
-    qr_image.save(buf)
-    
-    # Desplegamos el QR orgánico
-    st.image(buf.getvalue(), width=150)
+    # Solución inteligente: Usamos una API pública para generar el QR, evitando errores de servidor
+    portal_url = "https://rdmls.streamlit.app" 
+    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={portal_url}"
+    st.image(qr_api_url, width=150)
 
 with col_mensaje:
     st.markdown(f"""
-        <div class="chat-bubble">
+        <div class="chat-bubble" style="background: #FFF5F5; padding: 20px; border-radius: 15px; border-left: 5px solid #D32F2F;">
             <b>Serenito dice:</b> ¡Bienvenido al portal inteligente! Escanee el código de su izquierda para acceder directamente a todos los servicios desde su teléfono móvil y <b style='color: #D32F2F;'>llevar la SmartCity en su bolsillo.</b>
         </div>
     """, unsafe_allow_html=True)
@@ -131,20 +121,18 @@ st.write("")
 # ==========================================
 # 5. EL MOSAICO 3x3 (9 SERVICIOS)
 # ==========================================
-# El mosaico de 9 piezas con los servicios 8 y 9 desactivados
 servicios = [
     {"icon": "🏢", "title": "Acceso Edificio Consistorial", "desc": "Seguridad y registro digital de visitas municipales.", "dev": False, "link": "https://puertaserena.streamlit.app"},
-    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "dev": False, "link": "https://rdmls.cl"}, # CONECTADO
+    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "dev": False, "link": "https://rdmls.cl"}, 
     {"icon": "📡", "title": "Sentinel Faro", "desc": "Social Listening y monitoreo inteligente comunal.", "dev": False, "link": "#"},
-    {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación de la Municipalidad.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"}, # CONECTADO
+    {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación de la Municipalidad.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"}, 
     {"icon": "🎭", "title": "Protocolo y Eventos", "desc": "Gestión institucional y coordinación de actos.", "dev": False, "link": "#"},
     {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios municipales.", "dev": False, "link": "#"},
     {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "dev": False, "link": "#"},
-    {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"}, # DESACTIVADO
-    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"} # DESACTIVADO
+    {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"}, 
+    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"} 
 ]
 
-# Construcción de la grilla HTML sin fugas de código
 html_grid = "<div class='smart-grid'>"
 for s in servicios:
     clase = "card-desactivada" if s["dev"] else "card-activa"
