@@ -81,24 +81,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA: MÉTODO INFALIBLE DE ENLACES RAW
+# 3. CABECERA: ENLACES RAW CORREGIDOS
 # ==========================================
 col_logo1, col_logo2, col_texto, col_qr = st.columns([1.2, 1.2, 6, 1.5])
 
 with col_logo1:
-    # MÉTODO INFALIBLE: Llama a la imagen cruda directo desde tu GitHub
-    url_municipal = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_municipio.png"
+    # CORRECCIÓN: Apuntando exactamente a logo_muni.png
+    url_municipal = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_muni.png"
     try:
         st.image(url_municipal, use_container_width=True)
     except:
-        st.error("Revisar nombre")
+        st.error("Error")
 
 with col_logo2:
     url_innovacion = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png"
     try:
         st.image(url_innovacion, use_container_width=True)
     except:
-        st.error("Revisar nombre")
+        st.error("Error")
 
 with col_texto:
     st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
