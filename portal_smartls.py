@@ -1,111 +1,168 @@
 import streamlit as st
 
 # ==========================================
-# 1. CONFIGURACIÓN Y FAVICON ROJO (🔴)
+# 1. CONFIGURACIÓN Y FAVICON INSTITUCIONAL
 # ==========================================
-st.set_page_config(page_title="La Serena SmartCity", page_icon="🔴", layout="wide")
+# Usamos el escudo municipal como identidad en la pestaña del navegador
+st.set_page_config(page_title="La Serena SmartCity", page_icon="logo_muni.png", layout="wide")
 
 # ==========================================
-# 2. MOTOR ESTÉTICO: ROJO, BLANCO Y VIDRIO
+# 2. MOTOR ESTÉTICO: COMPRESIÓN Y VIDRIO
 # ==========================================
 st.markdown("""
     <style>
+    .block-container { padding-top: 1.5rem; padding-bottom: 0rem; }
     .stApp { background-color: #FFFFFF; }
     
-    /* Grilla simétrica 3x3 para evitar huecos */
+    /* Cabecera sincronizada a 80px */
+    .header-text-container { display: flex; flex-direction: column; justify-content: center; height: 80px; }
+    .header-title { color: #D32F2F; font-size: 2.1em; font-weight: bold; margin: 0; line-height: 1.1; }
+    .header-subtitle { color: #666; font-size: 1.1em; margin: 0; line-height: 1.2; }
+
+    /* Logos equilibrados */
+    .logo-img { height: 80px; width: auto; object-fit: contain; }
+    .logo-innovacion { mix-blend-mode: multiply; filter: contrast(110%); }
+
+    /* Grilla 3x3 Ultra-Compacta */
     .smart-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        padding: 30px 0;
+        gap: 15px;
+        padding: 10px 0;
     }
 
-    @media (max-width: 1000px) {
-        .smart-grid { grid-template-columns: 1fr; }
-    }
-    
-    /* Tarjeta Efecto Vidrio (Glassmorphism) */
     .mosaico-card {
-        border-radius: 20px;
-        padding: 30px;
+        border-radius: 15px;
+        padding: 20px;
         color: white !important;
         text-decoration: none !important;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 220px;
-        
-        /* Glassmorphism sobre Rojo Municipal */
-        backdrop-filter: blur(12px);
+        min-height: 165px; 
+        backdrop-filter: blur(10px);
         background: linear-gradient(135deg, #D32F2F 0%, #9A1B1B 100%);
         border: 1px solid rgba(255, 255, 255, 0.3);
-        
-        box-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.2);
-        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.15);
+        transition: all 0.3s ease;
     }
     
     .card-activa:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 35px rgba(211, 47, 47, 0.4);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(211, 47, 47, 0.35);
         filter: brightness(1.2);
     }
     
-    /* Servicios EN DESARROLLO */
     .card-desactivada {
-        background: rgba(233, 236, 239, 0.8) !important;
+        background: rgba(233, 236, 239, 0.95) !important;
         color: #ADB5BD !important;
         border: 2px dashed #D32F2F;
         cursor: not-allowed !important;
-        box-shadow: none !important;
     }
     .card-desactivada .card-title, .card-desactivada .card-desc { color: #ADB5BD !important; }
 
-    .card-icon { font-size: 3.8em; margin-bottom: 15px; color: white !important; }
-    .card-title { font-size: 1.6em; font-weight: bold; margin-bottom: 10px; line-height: 1.1; color: white !important; }
-    .card-desc { font-size: 1.05em; opacity: 0.95; line-height: 1.3; color: white !important; }
+    .card-icon { font-size: 3em; margin-bottom: 8px; color: white !important; }
+    .card-title { font-size: 1.4em; font-weight: bold; margin-bottom: 5px; color: white !important; }
+    .card-desc { font-size: 0.95em; opacity: 0.9; line-height: 1.2; color: white !important; }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA (LOGOS EN RAÍZ)
+# 3. CABECERA COMPRIMIDA (PROPORCIÓN 80px)
 # ==========================================
-col_t, col_l = st.columns([1.8, 1.2])
+col_info, col_logo1, col_logo2 = st.columns([1.8, 0.6, 0.6])
 
-with col_t:
-    st.markdown("<h1 style='color: #D32F2F; margin-bottom: 0px;'>🔴 La Serena SmartCity</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #666; font-size: 1.25em;'>Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</p>", unsafe_allow_html=True)
+with col_info:
+    st.markdown("""
+        <div class="header-text-container">
+            <div class="header-title">La Serena SmartCity</div>
+            <div class="header-subtitle">Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-with col_l:
-    # Equilibrio de logos cargando desde la raíz
-    c1, c2 = st.columns(2)
-    with c1:
-        st.image("logo_muni.png", width=150) 
-    with c2:
-        st.image("logo_innovacion.png", width=150)
+with col_logo1:
+    # Logo Municipal cargado desde la raíz de GitHub
+    st.image("logo_muni.png", width=130)
+
+with col_logo2:
+    # Logo Innovación cargado desde la raíz de GitHub
+    st.image("logo_innovacion.png", width=130)
 
 st.divider()
 
 # ==========================================
-# 4. EL MOSAICO 3x3 (9 SERVICIOS)
+# 4. EL MOSAICO 3x3 (DIRECCIONES REALES)
 # ==========================================
-# Se organiza la botonera completa para que nada se pierda.
 servicios = [
-    {"icon": "🏢", "title": "Acceso Edificio Consistorial", "desc": "Seguridad y registro digital de visitas municipales.", "dev": False, "link": "https://puertaserena.streamlit.app"},
-    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "dev": False, "link": "#"},
-    {"icon": "📡", "title": "Sentinel Faro", "desc": "Sistema inteligente de Social Listening comunal.", "dev": False, "link": "#"},
-    {"icon": "🎙️", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación de la Municipalidad.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"},
-    {"icon": "🎭", "title": "Protocolo y Eventos", "desc": "Gestión institucional y coordinación de actos.", "dev": False, "link": "#"},
-    {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios municipales.", "dev": False, "link": "#"},
-    {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "dev": False, "link": "#"},
-    {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"},
-    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"}
+    {
+        "icon": "🏢", 
+        "title": "Acceso Consistorial", 
+        "desc": "Seguridad y registro digital de visitas municipales.", 
+        "dev": False, 
+        "link": "https://puertaserena.streamlit.app" # CONECTADO
+    },
+    {
+        "icon": "🌐", 
+        "title": "Portal RDMLS", 
+        "desc": "Plataforma ciudadana y georeferenciación interactiva.", 
+        "dev": False, 
+        "link": "https://rdmls.cl" # Placeholder: Cambiar por la real si es distinta
+    },
+    {
+        "icon": "📡", 
+        "title": "Sentinel Faro", 
+        "desc": "Social Listening y monitoreo inteligente comunal.", 
+        "dev": False, 
+        "link": "#"
+    },
+    {
+        "icon": "🎙️", 
+        "title": "Radio Digital RDMLS", 
+        "desc": "Señal en vivo y programación de la Municipalidad.", 
+        "dev": False, 
+        "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena" # CONECTADO
+    },
+    {
+        "icon": "🎭", 
+        "title": "Protocolo y Eventos", 
+        "desc": "Gestión institucional y coordinación de actos.", 
+        "dev": False, 
+        "link": "#"
+    },
+    {
+        "icon": "🎓", 
+        "title": "Inducción E-Learning", 
+        "desc": "Capacitación digital para funcionarios municipales.", 
+        "dev": False, 
+        "link": "#"
+    },
+    {
+        "icon": "📄", 
+        "title": "Informes Honorarios", 
+        "desc": "Generador automático de reportes de gestión.", 
+        "dev": False, 
+        "link": "#"
+    },
+    {
+        "icon": "⛱️", 
+        "title": "Playas y Humedales", 
+        "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", 
+        "dev": True, 
+        "link": "#"
+    },
+    {
+        "icon": "🚦", 
+        "title": "Monitoreo Urbano", 
+        "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", 
+        "dev": True, 
+        "link": "#"
+    }
 ]
 
-# Construcción de la grilla visual blindada
 html_grid = "<div class='smart-grid'>"
 for s in servicios:
     clase = "card-desactivada" if s["dev"] else "card-activa"
-    url = s["link"] if not s["dev"] else "#"
+    url = s["link"]
     
     if s["dev"]:
         html_grid += f"""
