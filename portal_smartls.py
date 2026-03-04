@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import os
 
 # ==========================================
 # 1. CONFIGURACIÓN DEL PORTAL
@@ -39,14 +38,12 @@ st.markdown("""
     
     .metro-tile * { text-decoration: none !important; color: white !important; }
     
-    /* Efecto Glow/Flash solo para botones activos */
     a.metro-tile:hover {
         transform: scale(1.02) translateY(-4px);
         box-shadow: 0 15px 25px rgba(0,0,0,0.2);
         filter: brightness(1.1);
     }
     
-    /* Clase especial para botones en desarrollo (no clickeables) */
     .disabled-tile {
         cursor: default;
         opacity: 0.85;
@@ -60,7 +57,6 @@ st.markdown("""
     .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
     .tile-subtitle { font-size: 0.85em; opacity: 0.9; font-weight: 400; }
     
-    /* Degradados premium */
     .bg-alcaldia { background: linear-gradient(135deg, #1A365D 0%, #2B6CB0 100%); } 
     .bg-radio { background: linear-gradient(135deg, #C53030 0%, #E53E3E 100%); } 
     .bg-turismo { background: linear-gradient(135deg, #C05621 0%, #ED8936 100%); } 
@@ -73,7 +69,6 @@ st.markdown("""
     .bg-darkred { background: linear-gradient(135deg, #742A2A 0%, #9B2C2C 100%); }
     .bg-eco { background: linear-gradient(135deg, #22543D 0%, #38A169 100%); } 
     
-    /* Estabilidad en Dispositivos Móviles */
     @media (max-width: 1024px) {
         .metro-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -86,31 +81,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA: LOGOS DOBLES, RELOJ EN VIVO Y QR
+# 3. CABECERA: MÉTODO INFALIBLE DE ENLACES RAW
 # ==========================================
-col_logo1, col_logo2, col_texto, col_qr = st.columns([1, 1, 6, 1.5])
-
-# Función robusta para encontrar la imagen sin importar mayúsculas/minúsculas
-def cargar_logo_robusto(nombre_base):
-    variaciones = [
-        f"{nombre_base}.png", f"{nombre_base}.PNG", 
-        f"{nombre_base.capitalize()}.png", f"{nombre_base.capitalize()}.PNG",
-        f"{nombre_base.upper()}.PNG", f"{nombre_base.lower()}.png",
-        f"Logo_{nombre_base.split('_')[1] if '_' in nombre_base else nombre_base}.png"
-    ]
-    for ruta in variaciones:
-        if os.path.exists(ruta):
-            st.image(ruta, use_container_width=True)
-            return True
-    return False
+col_logo1, col_logo2, col_texto, col_qr = st.columns([1.2, 1.2, 6, 1.5])
 
 with col_logo1:
-    if not cargar_logo_robusto("logo_municipio"):
-        st.write("") # Mantiene la estructura si definitivamente no está
+    # MÉTODO INFALIBLE: Llama a la imagen cruda directo desde tu GitHub
+    url_municipal = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_municipio.png"
+    try:
+        st.image(url_municipal, use_container_width=True)
+    except:
+        st.error("Revisar nombre")
 
 with col_logo2:
-    if not cargar_logo_robusto("logo_innovacion"):
-        st.write("")
+    url_innovacion = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png"
+    try:
+        st.image(url_innovacion, use_container_width=True)
+    except:
+        st.error("Revisar nombre")
 
 with col_texto:
     st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
