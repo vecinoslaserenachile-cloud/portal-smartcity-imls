@@ -3,7 +3,6 @@ import streamlit as st
 # ==========================================
 # 1. CONFIGURACIÓN Y FAVICON (🔴)
 # ==========================================
-# Usamos el escudo municipal como favicon institucional
 st.set_page_config(page_title="La Serena SmartCity", page_icon="logo_muni.png", layout="wide")
 
 # ==========================================
@@ -13,15 +12,12 @@ st.markdown("""
     <style>
     .stApp { background-color: #FFFFFF; }
     
-    /* Cabecera compacta y alineada */
     .header-text { display: flex; flex-direction: column; justify-content: center; height: 90px; }
     .header-title { color: #D32F2F; font-size: 2.2em; font-weight: bold; margin: 0; line-height: 1.1; }
     .header-subtitle { color: #666; font-size: 1.2em; margin: 0; line-height: 1.2; }
 
-    /* Logos equilibrados y proporcionales */
     img[data-testid="stImage"] { max-height: 90px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
 
-    /* Grilla 3x3 sin huecos */
     .smart-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -29,7 +25,6 @@ st.markdown("""
         padding: 20px 0;
     }
 
-    /* Tarjeta Efecto Vidrio Glaseado */
     .mosaico-card {
         border-radius: 20px;
         padding: 25px;
@@ -52,7 +47,6 @@ st.markdown("""
         filter: brightness(1.2);
     }
     
-    /* Servicios EN DESARROLLO (Grises) */
     .card-desactivada {
         background: rgba(233, 236, 239, 0.7) !important;
         color: #ADB5BD !important;
@@ -65,14 +59,11 @@ st.markdown("""
     .card-icon { font-size: 3.5em; margin-bottom: 12px; color: white; }
     .card-title { font-size: 1.5em; font-weight: bold; margin-bottom: 8px; color: white; line-height: 1.2; }
     .card-desc { font-size: 1em; opacity: 0.95; line-height: 1.3; color: white; }
-    
-    /* Módulo QR */
-    .qr-container { text-align: center; padding: 20px; background: #FFF5F5; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px;}
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA ALINEADA (90px de altura)
+# 3. CABECERA ALINEADA
 # ==========================================
 col_info, col_logo1, col_logo2 = st.columns([2, 0.6, 0.6])
 
@@ -93,7 +84,7 @@ with col_logo2:
 st.divider()
 
 # ==========================================
-# 4. MÓDULO QR (LIGERO Y SIN LIBRERÍAS)
+# 4. MÓDULO QR (CONECTADO A LA DIRECCIÓN REAL)
 # ==========================================
 st.markdown("### 📲 Acceso Rápido: Escanee para interactuar con el portal")
 
@@ -104,8 +95,8 @@ with col_asistente:
     st.caption("<p style='text-align: center; color: #D32F2F; font-weight: bold;'>Serenito SmartBot</p>", unsafe_allow_html=True)
 
 with col_qr:
-    # Solución inteligente: Usamos una API pública para generar el QR, evitando errores de servidor
-    portal_url = "https://rdmls.streamlit.app" 
+    # URL EXACTA de su portal según el navegador de sus capturas
+    portal_url = "https://app-smartcity-imls.streamlit.app/" 
     qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={portal_url}"
     st.image(qr_api_url, width=150)
 
@@ -119,18 +110,72 @@ with col_mensaje:
 st.write("")
 
 # ==========================================
-# 5. EL MOSAICO 3x3 (9 SERVICIOS)
+# 5. EL MOSAICO 3x3 (ENLACES VERIFICADOS)
 # ==========================================
 servicios = [
-    {"icon": "🏢", "title": "Acceso Edificio Consistorial", "desc": "Seguridad y registro digital de visitas municipales.", "dev": False, "link": "https://puertaserena.streamlit.app"},
-    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "dev": False, "link": "https://rdmls.cl"}, 
-    {"icon": "📡", "title": "Sentinel Faro", "desc": "Social Listening y monitoreo inteligente comunal.", "dev": False, "link": "#"},
-    {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación de la Municipalidad.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"}, 
-    {"icon": "🎭", "title": "Protocolo y Eventos", "desc": "Gestión institucional y coordinación de actos.", "dev": False, "link": "#"},
-    {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios municipales.", "dev": False, "link": "#"},
-    {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "dev": False, "link": "#"},
-    {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"}, 
-    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"} 
+    {
+        "icon": "🏢", 
+        "title": "Acceso Edificio Consistorial", 
+        "desc": "Seguridad y registro digital de visitas municipales.", 
+        "dev": False, 
+        "link": "https://puertaserena.streamlit.app" # Link verificado por usted
+    },
+    {
+        "icon": "🌐", 
+        "title": "Portal RDMLS Integral", 
+        "desc": "Plataforma ciudadana y georeferenciación interactiva.", 
+        "dev": False, 
+        "link": "#" # <- PEGAR DIRECCIÓN DEL PORTAL AQUÍ
+    },
+    {
+        "icon": "📡", 
+        "title": "Sentinel Faro", 
+        "desc": "Social Listening y monitoreo inteligente comunal.", 
+        "dev": False, 
+        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+    },
+    {
+        "icon": "📻", 
+        "title": "Radio Digital RDMLS", 
+        "desc": "Señal en vivo y programación de la Municipalidad.", 
+        "dev": False, 
+        "link": "https://az11.yesstreaming.net/radio/8010/radio.mp3" # Link exacto del stream que compartió antes
+    },
+    {
+        "icon": "🎭", 
+        "title": "Protocolo y Eventos", 
+        "desc": "Gestión institucional y coordinación de actos.", 
+        "dev": False, 
+        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+    },
+    {
+        "icon": "🎓", 
+        "title": "Inducción E-Learning", 
+        "desc": "Capacitación digital para funcionarios municipales.", 
+        "dev": False, 
+        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+    },
+    {
+        "icon": "📄", 
+        "title": "Informes Honorarios", 
+        "desc": "Generador automático de reportes de gestión.", 
+        "dev": False, 
+        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+    },
+    {
+        "icon": "⛱️", 
+        "title": "Playas y Humedales", 
+        "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", 
+        "dev": True, 
+        "link": "#"
+    },
+    {
+        "icon": "🚦", 
+        "title": "Monitoreo Urbano", 
+        "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", 
+        "dev": True, 
+        "link": "#"
+    }
 ]
 
 html_grid = "<div class='smart-grid'>"
