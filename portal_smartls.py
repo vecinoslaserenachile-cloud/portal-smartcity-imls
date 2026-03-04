@@ -1,4 +1,5 @@
 import streamlit as st
+import urllib.parse
 
 # ==========================================
 # 1. CONFIGURACIÓN Y FAVICON (🔴)
@@ -6,7 +7,7 @@ import streamlit as st
 st.set_page_config(page_title="La Serena SmartCity", page_icon="logo_muni.png", layout="wide")
 
 # ==========================================
-# 2. MOTOR ESTÉTICO: VIDRIO Y ROJO
+# 2. MOTOR ESTÉTICO: VIDRIO Y ROJO INSTITUCIONAL
 # ==========================================
 st.markdown("""
     <style>
@@ -25,15 +26,18 @@ st.markdown("""
         padding: 20px 0;
     }
 
+    /* Blindaje para que toda la tarjeta sea clicable */
+    .card-enlace { display: block; text-decoration: none !important; height: 100%; }
+
     .mosaico-card {
         border-radius: 20px;
         padding: 25px;
         color: white !important;
-        text-decoration: none !important;
         display: flex;
         flex-direction: column;
         justify-content: center;
         min-height: 200px;
+        height: 100%;
         backdrop-filter: blur(10px);
         background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
         border: 1px solid rgba(255, 255, 255, 0.25);
@@ -84,7 +88,7 @@ with col_logo2:
 st.divider()
 
 # ==========================================
-# 4. MÓDULO QR (CONECTADO A LA DIRECCIÓN REAL)
+# 4. MÓDULO QR (CODIFICADO PARA CELULARES)
 # ==========================================
 st.markdown("### 📲 Acceso Rápido: Escanee para interactuar con el portal")
 
@@ -95,9 +99,11 @@ with col_asistente:
     st.caption("<p style='text-align: center; color: #D32F2F; font-weight: bold;'>Serenito SmartBot</p>", unsafe_allow_html=True)
 
 with col_qr:
-    # URL EXACTA de su portal según el navegador de sus capturas
+    # URL de su portal en Streamlit Cloud
     portal_url = "https://app-smartcity-imls.streamlit.app/" 
-    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={portal_url}"
+    # Codificamos la URL para forzar al celular a abrir el navegador
+    encoded_url = urllib.parse.quote(portal_url)
+    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={encoded_url}"
     st.image(qr_api_url, width=150)
 
 with col_mensaje:
@@ -110,7 +116,7 @@ with col_mensaje:
 st.write("")
 
 # ==========================================
-# 5. EL MOSAICO 3x3 (ENLACES VERIFICADOS)
+# 5. EL MOSAICO 3x3 (ENLACES BLINDADOS)
 # ==========================================
 servicios = [
     {
@@ -118,49 +124,49 @@ servicios = [
         "title": "Acceso Edificio Consistorial", 
         "desc": "Seguridad y registro digital de visitas municipales.", 
         "dev": False, 
-        "link": "https://puertaserena.streamlit.app" # Link verificado por usted
+        "link": "https://puertaserena.streamlit.app"
     },
     {
         "icon": "🌐", 
         "title": "Portal RDMLS Integral", 
         "desc": "Plataforma ciudadana y georeferenciación interactiva.", 
         "dev": False, 
-        "link": "#" # <- PEGAR DIRECCIÓN DEL PORTAL AQUÍ
+        "link": "#" # <-- ¡DIRECTOR: PEGUE SU LINK REAL AQUÍ!
     },
     {
         "icon": "📡", 
         "title": "Sentinel Faro", 
         "desc": "Social Listening y monitoreo inteligente comunal.", 
         "dev": False, 
-        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+        "link": "#" # <-- ¡DIRECTOR: PEGUE SU LINK REAL AQUÍ!
     },
     {
         "icon": "📻", 
         "title": "Radio Digital RDMLS", 
         "desc": "Señal en vivo y programación de la Municipalidad.", 
         "dev": False, 
-        "link": "https://az11.yesstreaming.net/radio/8010/radio.mp3" # Link exacto del stream que compartió antes
+        "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena" # RESTAURADO A PÁGINA PÚBLICA
     },
     {
         "icon": "🎭", 
         "title": "Protocolo y Eventos", 
         "desc": "Gestión institucional y coordinación de actos.", 
         "dev": False, 
-        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+        "link": "#" # <-- ¡DIRECTOR: PEGUE SU LINK REAL AQUÍ!
     },
     {
         "icon": "🎓", 
         "title": "Inducción E-Learning", 
         "desc": "Capacitación digital para funcionarios municipales.", 
         "dev": False, 
-        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+        "link": "#" # <-- ¡DIRECTOR: PEGUE SU LINK REAL AQUÍ!
     },
     {
         "icon": "📄", 
         "title": "Informes Honorarios", 
         "desc": "Generador automático de reportes de gestión.", 
         "dev": False, 
-        "link": "#" # <- PEGAR DIRECCIÓN AQUÍ
+        "link": "#" # <-- ¡DIRECTOR: PEGUE SU LINK REAL AQUÍ!
     },
     {
         "icon": "⛱️", 
@@ -180,20 +186,20 @@ servicios = [
 
 html_grid = "<div class='smart-grid'>"
 for s in servicios:
-    clase = "card-desactivada" if s["dev"] else "card-activa"
-    url = s["link"] if not s["dev"] else "#"
+    url = s["link"]
     
     if s["dev"]:
         html_grid += f"""
-        <div class='mosaico-card {clase}'>
+        <div class='mosaico-card card-desactivada'>
             <div class='card-icon'>{s["icon"]}</div>
             <div class='card-title'>{s["title"]}</div>
             <div class='card-desc'>{s["desc"]}</div>
         </div>"""
     else:
+        # Se agrega rel='noopener noreferrer' y clase card-enlace para máxima compatibilidad
         html_grid += f"""
-        <a href='{url}' target='_blank' style='text-decoration: none;'>
-            <div class='mosaico-card {clase}'>
+        <a href='{url}' target='_blank' rel='noopener noreferrer' class='card-enlace'>
+            <div class='mosaico-card card-activa'>
                 <div class='card-icon'>{s["icon"]}</div>
                 <div class='card-title'>{s["title"]}</div>
                 <div class='card-desc'>{s["desc"]}</div>
