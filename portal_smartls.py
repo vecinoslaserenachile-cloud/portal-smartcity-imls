@@ -52,6 +52,7 @@ st.markdown("""
     
     .tile-wide { grid-column: span 2; }
     .tile-large { grid-column: span 2; grid-row: span 2; }
+    .tile-full { grid-column: span 3; } /* Nueva regla para que abarque 3 columnas */
     
     .tile-icon { font-size: 2.4em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
     .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
@@ -94,7 +95,7 @@ st.markdown("""
     /* ========================================================= */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .tile-wide, .tile-large { grid-column: span 1; grid-row: span 1; }
+        .tile-wide, .tile-large, .tile-full { grid-column: span 1; grid-row: span 1; } /* tile-full se adapta a móvil */
         .metro-tile { min-height: 130px; }
         
         /* 1. Escudo La Serena a la mitad de tamaño y centrado */
@@ -225,6 +226,11 @@ mosaico_html = """
     <div class="tile-subtitle" style="margin-top: 4px;">Protección de humedales y entorno ecológico.</div>
 </div>
 </div>
+
+<a href="https://vecinoslaserenachile-cloud.github.io/redvecinos-smart-imls/#/fiscalizacion" target="_blank" class="metro-tile tile-full bg-vecinos">
+<div><div class="tile-icon">🔎</div><div class="tile-title">Fiscalización Red Vecinos</div></div>
+<div class="tile-subtitle">Sistema activo de fiscalización, inspección y reportes en terreno de la comuna.</div>
+</a>
 
 </div>
 """
