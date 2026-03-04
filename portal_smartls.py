@@ -72,30 +72,54 @@ st.markdown("""
     /* REGLAS INTACTAS PARA ESCRITORIO */
     .logo-muni { width: 100%; object-fit: contain; }
     .logo-inno-desktop { width: 100%; object-fit: contain; }
-    .logo-inno-mobile { display: none; } /* Oculto en PC */
+    .logo-inno-mobile { display: none; } 
     .qr-wrapper { display: flex; flex-direction: column; align-items: flex-start; }
     .qr-wrapper img { width: 120px; }
+    
+    /* Clase del título principal para poder manipularlo en móviles */
+    .main-title {
+        color: #2D3748; 
+        margin-bottom: 0; 
+        text-align: center; 
+        font-size: 3.2em;
+    }
 
     /* Estabilidad en Tablets */
     @media (max-width: 1024px) {
         .metro-grid { grid-template-columns: repeat(2, 1fr); }
     }
     
-    /* CIRUGÍA EXCLUSIVA PARA CELULARES */
+    /* ========================================================= */
+    /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil)                  */
+    /* ========================================================= */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
         .tile-wide, .tile-large { grid-column: span 1; grid-row: span 1; }
         .metro-tile { min-height: 130px; }
         
         /* 1. Escudo La Serena a la mitad de tamaño y centrado */
-        .logo-muni { width: 50%; display: block; margin: 0 auto; }
+        .logo-muni { width: 45%; display: block; margin: 0 auto; }
         
-        /* 2. Ocultar el logo de Innovación de la cabecera, mostrar el de abajo */
+        /* 2. Título SmartCity en una sola línea, rojo y más pequeño */
+        .main-title {
+            color: #E53E3E !important; /* Rojo elegante */
+            font-size: 1.7em !important; /* Tamaño ajustado para caber */
+            white-space: nowrap !important; /* Fuerza una sola línea */
+            margin-top: 15px !important;
+        }
+        
+        /* 3. Ocultar el logo de Innovación de la cabecera, mostrar el de abajo TRIPLICADO */
         .logo-inno-desktop { display: none; }
-        .logo-inno-mobile { display: block; width: 120px; margin: 40px auto 20px auto; object-fit: contain; }
+        .logo-inno-mobile { 
+            display: block; 
+            width: 360px !important; /* 3 veces más grande (de 120 a 360) */
+            max-width: 90%; /* Seguro por si la pantalla es muy delgada */
+            margin: 40px auto 20px auto; 
+            object-fit: contain; 
+        }
         
-        /* 3. QR más grande, centrado y empujado hacia abajo para no tapar la hora */
-        .qr-wrapper { align-items: center; margin-top: 30px; margin-bottom: 15px; width: 100%; text-align: center; }
+        /* 4. QR más grande, centrado y empujado hacia abajo */
+        .qr-wrapper { align-items: center; margin-top: 10px; margin-bottom: 25px; width: 100%; text-align: center; }
         .qr-wrapper img { width: 170px !important; }
     }
     </style>
@@ -113,10 +137,12 @@ with col_logo2:
     st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-desktop">', unsafe_allow_html=True)
 
 with col_texto:
-    st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
+    # El título ahora usa la clase .main-title que configuramos en el CSS
+    st.markdown("<h1 class='main-title'>La Serena SmartCity</h1>", unsafe_allow_html=True)
     
+    # Se aumentó el height a 75 para que en móviles no se corte la fecha y hora
     reloj_html = """
-    <div id="reloj_smart" style="font-family: 'Segoe UI', sans-serif; font-size: 1.15em; color: #4A5568; text-align: center; font-weight: 500; margin-top: 5px;"></div>
+    <div id="reloj_smart" style="font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #4A5568; text-align: center; font-weight: 500; margin-top: 5px;"></div>
     <script>
     function actualizarReloj() {
         var hoy = new Date();
@@ -124,16 +150,15 @@ with col_texto:
         var fecha = hoy.toLocaleDateString('es-CL', opciones);
         var hora = hoy.toLocaleTimeString('es-CL');
         fecha = fecha.charAt(0).toUpperCase() + fecha.slice(1);
-        document.getElementById('reloj_smart').innerHTML = '📍 La Serena | ' + fecha + ' | 🕒 ' + hora;
+        document.getElementById('reloj_smart').innerHTML = '📍 La Serena | ' + fecha + '<br>🕒 ' + hora;
     }
     setInterval(actualizarReloj, 1000);
     actualizarReloj();
     </script>
     """
-    components.html(reloj_html, height=40)
+    components.html(reloj_html, height=75)
 
 with col_qr:
-    # Generador de QR con tamaño base mayor para que no pierda resolución al agrandarse en el celular
     qr_html = """
     <div class="qr-wrapper">
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://app-smartcity-imls.streamlit.app/">
@@ -214,5 +239,5 @@ st.divider()
 # ==========================================
 st.caption("Seleccione un servicio para ingresar. Plataforma centralizada de la Ilustre Municipalidad de La Serena.")
 
-# Este logo de innovación se inyecta al final, pero solo será visible en pantallas pequeñas
+# Este logo se despliega al final, en tamaño gigante, exclusivo para versión móvil
 st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-mobile">', unsafe_allow_html=True)
