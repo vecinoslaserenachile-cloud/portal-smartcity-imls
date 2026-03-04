@@ -6,23 +6,27 @@ import streamlit as st
 st.set_page_config(page_title="La Serena SmartCity", page_icon="🌐", layout="wide")
 
 # ==========================================
-# 2. MOTOR GRÁFICO TIPO METRO (MOSAICO)
+# 2. MOTOR GRÁFICO TIPO METRO (MOSAICO CORREGIDO)
 # ==========================================
 st.markdown("""
     <style>
     .stApp { background-color: #F4F6F9; }
     
+    /* Ocultar subrayados de enlaces por defecto del navegador */
+    a { text-decoration: none !important; }
+    
     .metro-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         grid-auto-rows: 150px;
+        grid-auto-flow: dense; /* EL SECRETO: Hace que los bloques encajen como Tetris sin dejar huecos */
         gap: 15px;
         padding: 20px 0;
     }
     
     .metro-tile {
         color: white !important;
-        text-decoration: none;
+        text-decoration: none !important;
         padding: 20px;
         border-radius: 8px;
         font-family: 'Segoe UI', sans-serif;
@@ -34,6 +38,11 @@ st.markdown("""
         cursor: pointer;
         height: 100%;
         border: none;
+    }
+    
+    .metro-tile * {
+        text-decoration: none !important;
+        color: white !important;
     }
     
     .metro-tile:hover {
@@ -58,28 +67,36 @@ st.markdown("""
     .bg-purple { background-color: #805AD5; }
     .bg-teal { background-color: #319795; }
     .bg-darkred { background-color: #9B2C2C; }
-    .bg-eco { background-color: #2F855A; } /* Verde oscuro para medio ambiente */
+    .bg-eco { background-color: #2F855A; } 
     
     @media (max-width: 768px) {
-        .tile-wide, .tile-large { grid-column: span 1; }
+        .tile-wide, .tile-large { grid-column: span 1; grid-row: span 1; }
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA DEL PORTAL
+# 3. CABECERA CON LOGOS Y QR RESTAURADOS
 # ==========================================
-col_logo, col_texto = st.columns([1, 8])
-with col_logo:
-    st.markdown("<div style='font-size: 65px; text-align: center; margin-top: -10px;'>🌐</div>", unsafe_allow_html=True)
+col_logo1, col_texto, col_qr = st.columns([1.5, 6, 1.5])
+
+with col_logo1:
+    # AQUÍ VAN TUS LOGOS INSTITUCIONALES (Puedes reemplazar el link por tus imágenes reales)
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Escudo_de_La_Serena.svg/800px-Escudo_de_La_Serena.svg.png", width=90)
+
 with col_texto:
-    st.markdown("<h1 style='color: #2D3748; margin-bottom: 0;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
-    st.markdown("<h4 style='color: #718096; margin-top: 0;'>Portal de Servicios Integrados | I.M. La Serena</h4>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #718096; margin-top: 0; text-align: center;'>Portal de Servicios Integrados | I.M. La Serena</h4>", unsafe_allow_html=True)
+
+with col_qr:
+    # AQUÍ VA TU CÓDIGO QR (Reemplaza el link por tu imagen de QR)
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png", width=90)
+    st.caption("Escanear Portal")
 
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO HTML (9 Módulos Exactos)
+# 4. CONSTRUCCIÓN DEL MOSAICO HTML (Sin Subrayados)
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
