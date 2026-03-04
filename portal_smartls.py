@@ -36,6 +36,7 @@ st.markdown("""
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         cursor: pointer;
         height: 100%;
+        border: none;
     }
     
     .metro-tile:hover {
@@ -173,7 +174,7 @@ mosaico_html = """
 """
 
 # ==========================================
-# 5. RENDERIZADO DEL PORTAL
+# 5. RENDERIZADO DEL PORTAL (ESENCIAL)
 # ==========================================
 st.markdown(mosaico_html, unsafe_allow_html=True)
 
