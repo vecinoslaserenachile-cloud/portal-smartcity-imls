@@ -1,179 +1,175 @@
 import streamlit as st
-import urllib.parse
+import urllib.parse # Necesaria para el nuevo QR funcional
 
 # ==========================================
 # 1. CONFIGURACIÓN Y FAVICON (🔴)
 # ==========================================
+# Seteo seguro para evitar que la app se vaya a blanco
 st.set_page_config(page_title="La Serena SmartCity", page_icon="logo_muni.png", layout="wide")
 
 # ==========================================
-# 2. MOTOR ESTÉTICO: ROJO, VIDRIO Y RESPONSIVO
+# 2. MOTOR ESTÉTICO: VIDRIO Y ROJO
 # ==========================================
 st.markdown("""
     <style>
-    /* Reset básico para aprovechar toda la pantalla */
-    .block-container { padding-top: 2rem; padding-bottom: 2rem; }
+    /* Reset básico y fondo */
+    .block-container { padding-top: 1.5rem; padding-bottom: 0rem; }
     .stApp { background-color: #FFFFFF; }
     
-    /* Textos Cabecera (Sin alturas forzadas para evitar cortes) */
-    .header-title { color: #D32F2F; font-size: 2.4em; font-weight: bold; margin: 0; line-height: 1.2; }
-    .header-subtitle { color: #666; font-size: 1.2em; margin-bottom: 10px; line-height: 1.3; }
+    /* CABECERA SEGURA Y ALINEADA
+       Al quitar el padding-top excesivo, solucionamos el problema de 
+       que los textos y logos se cortaran arriba.
+    */
+    .header-text-container { display: flex; flex-direction: column; justify-content: center; height: 90px; }
+    .header-title { color: #D32F2F; font-size: 2.2em; font-weight: bold; margin: 0; line-height: 1.1; }
+    .header-subtitle { color: #666; font-size: 1.1em; margin: 0; line-height: 1.2; }
 
-    /* Filtro para pelar fondo blanco de los logos */
-    img[data-testid="stImage"] { mix-blend-mode: multiply; object-fit: contain; }
+    /* Logos equilibrados y proporcionales */
+    img[data-testid="stImage"] { max-height: 90px; width: auto; object-fit: contain; mix-blend-mode: multiply; }
 
-    /* GRILLA RESPONSIVA: 3 columnas en PC, 2 en Tablet, 1 en Celular */
+    /* Grilla 3x3 sin huecos */
     .smart-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
-        padding-top: 10px;
-    }
-    @media (max-width: 1100px) {
-        .smart-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-        .smart-grid { grid-template-columns: 1fr; }
+        padding: 20px 0;
     }
 
-    /* Blindaje de enlace en tarjetas */
+    /* Blindaje para que toda la tarjeta sea clicable */
     .card-enlace { display: block; text-decoration: none !important; height: 100%; }
 
-    /* Tarjetas Rojas (Activas) */
+    /* Tarjeta Efecto Vidrio Glaseado */
     .mosaico-card {
-        border-radius: 15px;
+        border-radius: 20px;
         padding: 25px;
         color: white !important;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 180px;
-        height: 100%;
+        min-height: 200px;
         backdrop-filter: blur(10px);
         background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
         border: 1px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.15);
         transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
     
     .card-activa:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 10px 25px rgba(211, 47, 47, 0.35);
-        filter: brightness(1.15);
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(211, 47, 47, 0.3);
+        filter: brightness(1.2);
     }
     
-    /* Tarjetas Grises (En Desarrollo) */
+    /* Servicios EN DESARROLLO (Grises) */
     .card-desactivada {
-        background: rgba(233, 236, 239, 0.8) !important;
+        background: rgba(233, 236, 239, 0.7) !important;
+        color: #ADB5BD !important;
         border: 2px dashed #D32F2F;
         cursor: not-allowed !important;
         box-shadow: none !important;
     }
     .card-desactivada .card-title, .card-desactivada .card-desc, .card-desactivada .card-icon { color: #ADB5BD !important; }
 
-    .card-icon { font-size: 3em; margin-bottom: 10px; color: white; }
-    .card-title { font-size: 1.4em; font-weight: bold; margin-bottom: 6px; color: white; line-height: 1.2; }
-    .card-desc { font-size: 0.95em; opacity: 0.95; line-height: 1.3; color: white; }
+    .card-icon { font-size: 3.5em; margin-bottom: 12px; color: white; }
+    .card-title { font-size: 1.5em; font-weight: bold; margin-bottom: 8px; color: white; line-height: 1.2; }
+    .card-desc { font-size: 1em; opacity: 0.95; line-height: 1.3; color: white; }
     
-    /* Contenedor Lateral (Derecha) */
-    .sidebar-box {
-        background: #FFF5F5;
-        border-radius: 15px;
-        padding: 25px;
-        text-align: center;
-        border-left: 5px solid #D32F2F;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        margin-top: 20px;
-    }
+    /* Módulo QR */
+    .qr-container { text-align: center; padding: 20px; background: #FFF5F5; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px;}
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA PRINCIPAL (LOGOS RECUPERADOS)
+# 3. CABECERA ALINEADA (90px de altura)
 # ==========================================
-# Los logos vuelven a su posición segura arriba para que no se corten ni desaparezcan
-col_titulos, col_logos = st.columns([2.5, 1.5])
+# Sincronizamos alturas en el header
+col_info, col_logo1, col_logo2 = st.columns([2, 0.6, 0.6])
 
-with col_titulos:
+with col_info:
     st.markdown("""
-        <div class="header-title">La Serena SmartCity</div>
-        <div class="header-subtitle">Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</div>
+        <div class="header-text-container">
+            <div class="header-title">La Serena SmartCity</div>
+            <div class="header-subtitle">Portal de Servicios Integrados | Ilustre Municipalidad de La Serena</div>
+        </div>
     """, unsafe_allow_html=True)
 
-with col_logos:
-    # Carga nativa para que funcione siempre en la nube y móviles
-    c1, c2 = st.columns(2)
-    with c1:
-        st.image("logo_muni.png", use_container_width=True)
-    with c2:
-        st.image("logo_innovacion.png", use_container_width=True)
+with col_logo1:
+    # Se cargan proporcionalmente desde la raíz
+    st.image("logo_muni.png", use_container_width=True) 
+
+with col_logo2:
+    st.image("logo_innovacion.png", use_container_width=True)
 
 st.divider()
 
 # ==========================================
-# 4. LAYOUT PRINCIPAL: 75% MOSAICO | 25% QR
+# 4. MÓDULO QR (MODERNIZADO Y FUNCIONAL)
 # ==========================================
-col_mosaico, col_qr = st.columns([3, 1])
+st.markdown("### 📲 Acceso Rápido: Escanee para interactuar con el portal")
 
-with col_mosaico:
-    # Enlaces oficiales mapeados
-    servicios = [
-        {"icon": "🏢", "title": "Acceso Consistorial", "desc": "Seguridad y registro digital de visitas.", "dev": False, "link": "https://puertaserena.streamlit.app/"},
-        {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación.", "dev": False, "link": "https://vecinoslaserenachile-cloud.github.io/RDMLS/"},
-        {"icon": "📡", "title": "Sentinel Faro", "desc": "Social Listening y monitoreo inteligente comunal.", "dev": False, "link": "https://monitor-laserena.streamlit.app/"},
-        {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo de la Municipalidad de La Serena.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"},
-        {"icon": "🎭", "title": "App Serenito (Protocolo)", "desc": "Gestión institucional y coordinación de eventos.", "dev": False, "link": "https://vecinoslaserenachile-cloud.github.io/serenito-app/"},
-        {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios.", "dev": False, "link": "https://vecinoslaserenachile-cloud.github.io/portal-induccion-imls/"},
-        {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "dev": False, "link": "https://honorarios-ls-me.streamlit.app/"},
-        {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"},
-        {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"}
-    ]
+col_asistente, col_qr, col_mensaje = st.columns([1, 1, 3], vertical_alignment="center")
 
-    html_grid = "<div class='smart-grid'>"
-    for s in servicios:
-        url = s["link"]
-        if s["dev"]:
-            html_grid += f"""
-            <div class='mosaico-card card-desactivada'>
+with col_asistente:
+    st.markdown("<div style='font-size: 80px; text-align: center;'>🔴</div>", unsafe_allow_html=True)
+    st.caption("<p style='text-align: center; color: #D32F2F; font-weight: bold;'>Serenito SmartBot</p>", unsafe_allow_html=True)
+
+with col_qr:
+    # Solución técnica: Generamos el QR de forma nativa para que el 
+    # teléfono lo lea como un hipervínculo puro
+    portal_url = "https://app-smartcity-imls.streamlit.app" # URL pública del portal
+    encoded_url = urllib.parse.quote(portal_url)
+    qr_api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={encoded_url}"
+    st.image(qr_api_url, width=150)
+
+with col_mensaje:
+    st.markdown(f"""
+        <div class="chat-bubble" style="background: #FFF5F5; padding: 20px; border-radius: 15px; border-left: 5px solid #D32F2F;">
+            <b>Serenito dice:</b> ¡Bienvenido al portal inteligente! Escanee el código de su izquierda para acceder directamente a todos los servicios desde su teléfono móvil y <b style='color: #D32F2F;'>llevar la SmartCity en su bolsillo.</b>
+        </div>
+    """, unsafe_allow_html=True)
+
+st.write("")
+
+# ==========================================
+# 5. EL MOSAICO 3x3 (9 SERVICIOS)
+# ==========================================
+# El mosaico de 9 piezas con los servicios 8 y 9 desactivados
+servicios = [
+    {"icon": "🏢", "title": "Acceso Consistorial", "desc": "Seguridad y registro digital de visitas municipales.", "dev": False, "link": "https://puertaserena.streamlit.app"},
+    {"icon": "🌐", "title": "Portal RDMLS Integral", "desc": "Plataforma ciudadana y georeferenciación interactiva.", "dev": False, "link": "https://rdmls.cl"}, # Placeholder
+    {"icon": "📡", "title": "Sentinel Faro", "desc": "Social Listening y monitoreo inteligente comunal.", "dev": False, "link": "#"},
+    {"icon": "📻", "title": "Radio Digital RDMLS", "desc": "Señal en vivo y programación de la Municipalidad.", "dev": False, "link": "https://az11.yesstreaming.net/public/radio-digital-municipal-la-serena"}, # Placeholder
+    {"icon": "🎭", "title": "Protocolo y Eventos", "desc": "Gestión institucional y coordinación de actos.", "dev": False, "link": "#"},
+    {"icon": "🎓", "title": "Inducción E-Learning", "desc": "Capacitación digital para funcionarios municipales.", "dev": False, "link": "#"},
+    {"icon": "🎓", "title": "C. Induction", "desc": "Capacitación digital.", "dev": False, "link": "https://cinduction-ls.streamlit.app"}, # Placeholder
+    {"icon": "📄", "title": "Informes Honorarios", "desc": "Generador automático de reportes de gestión.", "dev": False, "link": "#"},
+    {"icon": "⛱️", "title": "Playas y Humedales", "desc": "EN DESARROLLO - MONITOREO AMBIENTAL", "dev": True, "link": "#"}, # Placeholder
+    {"icon": "🚦", "title": "Monitoreo Urbano", "desc": "EN DESARROLLO - TRÁNSITO Y BACHES", "dev": True, "link": "#"} # Placeholder
+]
+
+# Construcción de la grilla HTML sin fugas de código
+html_grid = "<div class='smart-grid'>"
+for s in servicios:
+    clase = "card-desactivada" if s["dev"] else "card-activa"
+    url = s["link"] if not s["dev"] else "#"
+    
+    if s["dev"]:
+        html_grid += f"""
+        <div class='mosaico-card {clase}'>
+            <div class='card-icon'>{s["icon"]}</div>
+            <div class='card-title'>{s["title"]}</div>
+            <div class='card-desc'>{s["desc"]}</div>
+        </div>"""
+    else:
+        # Se agrega rel='noopener noreferrer' para máxima compatibilidad
+        html_grid += f"""
+        <a href='{url}' target='_blank' rel='noopener noreferrer' style='text-decoration: none;'>
+            <div class='mosaico-card {clase}'>
                 <div class='card-icon'>{s["icon"]}</div>
                 <div class='card-title'>{s["title"]}</div>
                 <div class='card-desc'>{s["desc"]}</div>
-            </div>"""
-        else:
-            html_grid += f"""
-            <a href='{url}' target='_blank' rel='noopener noreferrer' class='card-enlace'>
-                <div class='mosaico-card card-activa'>
-                    <div class='card-icon'>{s["icon"]}</div>
-                    <div class='card-title'>{s["title"]}</div>
-                    <div class='card-desc'>{s["desc"]}</div>
-                </div>
-            </a>"""
-    html_grid += "</div>"
-    
-    st.markdown(html_grid, unsafe_allow_html=True)
+            </div>
+        </a>"""
+html_grid += "</div>"
 
-
-with col_qr:
-    # Generador de código QR nativo para hipervínculos
-    portal_url = "https://app-smartcity-imls.streamlit.app/"
-    # Codificar la URL asegura que el lector del teléfono entienda que debe abrir un navegador
-    encoded_url = urllib.parse.quote(portal_url)
-    qr_api_url = f"https://quickchart.io/qr?text={encoded_url}&size=250&margin=1"
-    
-    st.markdown(f"""
-        <div style="text-align: center; margin-top: 10px;">
-            <p style="color: #D32F2F; font-weight: bold; font-size: 1.2em; margin-bottom: 10px;">📲 Escanea y Accede</p>
-            <img src="{qr_api_url}" width="180" style="border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Burbuja Informativa de Serenito
-    st.markdown("""
-        <div class="sidebar-box">
-            <div style='font-size: 45px;'>🔴</div>
-            <p style='color: #D32F2F; font-weight: bold; font-size: 1.1em; margin-bottom: 5px;'>Serenito SmartBot</p>
-            <p style='color: #444; font-size: 0.95em; line-height: 1.4;'>
-                Apunta la cámara de tu teléfono al código QR superior para abrir el <b>Portal SmartCity</b> interactivo y llevar los servicios en tu bolsillo.
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
+st.markdown(html_grid, unsafe_allow_html=True)
