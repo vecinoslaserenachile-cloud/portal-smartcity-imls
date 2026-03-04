@@ -69,36 +69,48 @@ st.markdown("""
     .bg-darkred { background: linear-gradient(135deg, #742A2A 0%, #9B2C2C 100%); }
     .bg-eco { background: linear-gradient(135deg, #22543D 0%, #38A169 100%); } 
     
+    /* REGLAS INTACTAS PARA ESCRITORIO */
+    .logo-muni { width: 100%; object-fit: contain; }
+    .logo-inno-desktop { width: 100%; object-fit: contain; }
+    .logo-inno-mobile { display: none; } /* Oculto en PC */
+    .qr-wrapper { display: flex; flex-direction: column; align-items: flex-start; }
+    .qr-wrapper img { width: 120px; }
+
+    /* Estabilidad en Tablets */
     @media (max-width: 1024px) {
         .metro-grid { grid-template-columns: repeat(2, 1fr); }
     }
+    
+    /* CIRUGÍA EXCLUSIVA PARA CELULARES */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
         .tile-wide, .tile-large { grid-column: span 1; grid-row: span 1; }
         .metro-tile { min-height: 130px; }
+        
+        /* 1. Escudo La Serena a la mitad de tamaño y centrado */
+        .logo-muni { width: 50%; display: block; margin: 0 auto; }
+        
+        /* 2. Ocultar el logo de Innovación de la cabecera, mostrar el de abajo */
+        .logo-inno-desktop { display: none; }
+        .logo-inno-mobile { display: block; width: 120px; margin: 40px auto 20px auto; object-fit: contain; }
+        
+        /* 3. QR más grande, centrado y empujado hacia abajo para no tapar la hora */
+        .qr-wrapper { align-items: center; margin-top: 30px; margin-bottom: 15px; width: 100%; text-align: center; }
+        .qr-wrapper img { width: 170px !important; }
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 3. CABECERA: ENLACES RAW CORREGIDOS
+# 3. CABECERA: ENLACES RAW
 # ==========================================
 col_logo1, col_logo2, col_texto, col_qr = st.columns([1.2, 1.2, 6, 1.5])
 
 with col_logo1:
-    # CORRECCIÓN: Apuntando exactamente a logo_muni.png
-    url_municipal = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_muni.png"
-    try:
-        st.image(url_municipal, use_container_width=True)
-    except:
-        st.error("Error")
+    st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_muni.png" class="logo-muni">', unsafe_allow_html=True)
 
 with col_logo2:
-    url_innovacion = "https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png"
-    try:
-        st.image(url_innovacion, use_container_width=True)
-    except:
-        st.error("Error")
+    st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-desktop">', unsafe_allow_html=True)
 
 with col_texto:
     st.markdown("<h1 style='color: #2D3748; margin-bottom: 0; text-align: center; font-size: 3.2em;'>La Serena SmartCity</h1>", unsafe_allow_html=True)
@@ -121,9 +133,14 @@ with col_texto:
     components.html(reloj_html, height=40)
 
 with col_qr:
-    qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://app-smartcity-imls.streamlit.app/"
-    st.image(qr_url, width=120)
-    st.markdown("<p style='text-align: left; font-size: 0.85em; color: #4A5568; font-weight: bold; margin-left: 5px;'>📱 Escanea y Entra</p>", unsafe_allow_html=True)
+    # Generador de QR con tamaño base mayor para que no pierda resolución al agrandarse en el celular
+    qr_html = """
+    <div class="qr-wrapper">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://app-smartcity-imls.streamlit.app/">
+        <p style='font-size: 0.85em; color: #4A5568; font-weight: bold; margin-top: 5px; margin-bottom: 0;'>📱 Escanea y Entra</p>
+    </div>
+    """
+    st.markdown(qr_html, unsafe_allow_html=True)
 
 st.divider()
 
@@ -187,11 +204,15 @@ mosaico_html = """
 </div>
 """
 
-# ==========================================
-# 5. RENDERIZADO DEL PORTAL
-# ==========================================
 st.markdown(mosaico_html, unsafe_allow_html=True)
 
 st.write("")
 st.divider()
+
+# ==========================================
+# 5. FOOTER: LOGO MÓVIL Y TEXTO
+# ==========================================
 st.caption("Seleccione un servicio para ingresar. Plataforma centralizada de la Ilustre Municipalidad de La Serena.")
+
+# Este logo de innovación se inyecta al final, pero solo será visible en pantallas pequeñas
+st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-mobile">', unsafe_allow_html=True)
