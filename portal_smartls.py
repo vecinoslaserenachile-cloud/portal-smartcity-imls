@@ -52,7 +52,7 @@ st.markdown("""
     
     .tile-wide { grid-column: span 2; }
     .tile-large { grid-column: span 2; grid-row: span 2; }
-    .tile-full { grid-column: span 3; } /* Nueva regla para que abarque 3 columnas */
+    .tile-full { grid-column: span 3; }
     
     .tile-icon { font-size: 2.4em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
     .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
@@ -69,6 +69,7 @@ st.markdown("""
     .bg-teal { background: linear-gradient(135deg, #234E52 0%, #319795 100%); }
     .bg-darkred { background: linear-gradient(135deg, #742A2A 0%, #9B2C2C 100%); }
     .bg-eco { background: linear-gradient(135deg, #22543D 0%, #38A169 100%); } 
+    .bg-blue-neon { background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); border: 1px solid #00ffcc;}
     
     /* REGLAS INTACTAS PARA ESCRITORIO */
     .logo-muni { width: 100%; object-fit: contain; }
@@ -77,7 +78,6 @@ st.markdown("""
     .qr-wrapper { display: flex; flex-direction: column; align-items: flex-start; }
     .qr-wrapper img { width: 120px; }
     
-    /* Clase del título principal para poder manipularlo en móviles */
     .main-title {
         color: #2D3748; 
         margin-bottom: 0; 
@@ -90,36 +90,30 @@ st.markdown("""
         .metro-grid { grid-template-columns: repeat(2, 1fr); }
     }
     
-    /* ========================================================= */
-    /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil)                  */
-    /* ========================================================= */
+    /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil) */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .tile-wide, .tile-large, .tile-full { grid-column: span 1; grid-row: span 1; } /* tile-full se adapta a móvil */
+        .tile-wide, .tile-large, .tile-full { grid-column: span 1; grid-row: span 1; }
         .metro-tile { min-height: 130px; }
         
-        /* 1. Escudo La Serena a la mitad de tamaño y centrado */
         .logo-muni { width: 45%; display: block; margin: 0 auto; }
         
-        /* 2. Título SmartCity en una sola línea, rojo y más pequeño */
         .main-title {
-            color: #E53E3E !important; /* Rojo elegante */
-            font-size: 1.7em !important; /* Tamaño ajustado para caber */
-            white-space: nowrap !important; /* Fuerza una sola línea */
+            color: #E53E3E !important; 
+            font-size: 1.7em !important; 
+            white-space: nowrap !important; 
             margin-top: 15px !important;
         }
         
-        /* 3. Ocultar el logo de Innovación de la cabecera, mostrar el de abajo TRIPLICADO */
         .logo-inno-desktop { display: none; }
         .logo-inno-mobile { 
             display: block; 
-            width: 360px !important; /* 3 veces más grande (de 120 a 360) */
-            max-width: 90%; /* Seguro por si la pantalla es muy delgada */
+            width: 360px !important; 
+            max-width: 90%; 
             margin: 40px auto 20px auto; 
             object-fit: contain; 
         }
         
-        /* 4. QR más grande, centrado y empujado hacia abajo */
         .qr-wrapper { align-items: center; margin-top: 10px; margin-bottom: 25px; width: 100%; text-align: center; }
         .qr-wrapper img { width: 170px !important; }
     }
@@ -138,10 +132,8 @@ with col_logo2:
     st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-desktop">', unsafe_allow_html=True)
 
 with col_texto:
-    # El título ahora usa la clase .main-title que configuramos en el CSS
     st.markdown("<h1 class='main-title'>La Serena SmartCity</h1>", unsafe_allow_html=True)
     
-    # Se aumentó el height a 75 para que en móviles no se corte la fecha y hora
     reloj_html = """
     <div id="reloj_smart" style="font-family: 'Segoe UI', sans-serif; font-size: 1.1em; color: #4A5568; text-align: center; font-weight: 500; margin-top: 5px;"></div>
     <script>
@@ -227,9 +219,14 @@ mosaico_html = """
 </div>
 </div>
 
-<a href="https://vecinoslaserenachile-cloud.github.io/redvecinos-smart-imls/#/fiscalizacion" target="_blank" class="metro-tile tile-full bg-vecinos">
-<div><div class="tile-icon">🔎</div><div class="tile-title">Fiscalización Red Vecinos</div></div>
-<div class="tile-subtitle">Sistema activo de fiscalización, inspección y reportes en terreno de la comuna.</div>
+<a href="https://redvecinos-smart-imls.web.app/" target="_blank" class="metro-tile tile-wide bg-blue-neon">
+<div><div class="tile-icon">🛡️</div><div class="tile-title">Acceso Municipal - Fiscalización</div></div>
+<div class="tile-subtitle">Portal exclusivo para funcionarios y Centro de Gestión.</div>
+</a>
+
+<a href="https://redvecinos-smart-imls.web.app/#/fiscalizacion" target="_blank" class="metro-tile bg-vecinos">
+<div><div class="tile-icon">📱</div><div class="tile-title">Nueva Alerta de Seguridad</div></div>
+<div class="tile-subtitle">Formulario de reporte in situ para recintos privados.</div>
 </a>
 
 </div>
@@ -245,5 +242,4 @@ st.divider()
 # ==========================================
 st.caption("Seleccione un servicio para ingresar. Plataforma centralizada de la Ilustre Municipalidad de La Serena.")
 
-# Este logo se despliega al final, en tamaño gigante, exclusivo para versión móvil
 st.markdown('<img src="https://raw.githubusercontent.com/vecinoslaserenachile-cloud/portal-smartcity-imls/main/logo_innovacion.png" class="logo-inno-mobile">', unsafe_allow_html=True)
