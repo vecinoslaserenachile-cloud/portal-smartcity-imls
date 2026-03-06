@@ -18,7 +18,7 @@ st.markdown("""
     .metro-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 150px;
+        grid-auto-rows: 160px; /* Altura aumentada para dar respiro al texto grande */
         gap: 18px;
         padding: 20px 0;
     }
@@ -47,13 +47,14 @@ st.markdown("""
     /* Baldosas en desarrollo: Más opacas y apagadas */
     .disabled-tile {
         cursor: default;
-        opacity: 0.5; /* 50% de transparencia */
-        filter: grayscale(50%); /* Tono más grisáceo */
+        opacity: 0.5; 
+        filter: grayscale(50%); 
     }
     
-    .tile-icon { font-size: 2.4em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-    .tile-title { font-weight: 700; font-size: 1.15em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-    .tile-subtitle { font-size: 0.8em; opacity: 0.9; font-weight: 400; line-height: 1.1; }
+    /* TEXTOS AUMENTADOS */
+    .tile-icon { font-size: 2.6em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    .tile-title { font-weight: 700; font-size: 1.4em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+    .tile-subtitle { font-size: 0.95em; opacity: 0.95; font-weight: 400; line-height: 1.3; }
     
     .bg-alcaldia { background: linear-gradient(135deg, #1A365D 0%, #2B6CB0 100%); } 
     .bg-radio { background: linear-gradient(135deg, #C53030 0%, #E53E3E 100%); } 
@@ -91,7 +92,7 @@ st.markdown("""
     /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil) */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .metro-tile { min-height: 130px; }
+        .metro-tile { min-height: 140px; } /* Ajustado por el nuevo tamaño de letra */
         
         .logo-muni { width: 45%; display: block; margin: 0 auto; }
         
@@ -160,7 +161,7 @@ with col_qr:
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO HTML (TODOS DE TAMAÑO EQUITATIVO)
+# 4. CONSTRUCCIÓN DEL MOSAICO HTML
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
@@ -214,7 +215,7 @@ mosaico_html = """
 <div class="metro-tile bg-orange disabled-tile">
 <div><div class="tile-icon">🚧</div><div class="tile-title">Monitor Vial y Tránsito</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 1.05em;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Georeferenciación de baches, luminarias y vehículos.</div>
 </div>
 </div>
@@ -222,7 +223,7 @@ mosaico_html = """
 <div class="metro-tile bg-eco disabled-tile">
 <div><div class="tile-icon">🌱</div><div class="tile-title">Cuidado Ambiental</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 1.05em;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Protección de humedales y entorno ecológico.</div>
 </div>
 </div>
@@ -230,7 +231,7 @@ mosaico_html = """
 <div class="metro-tile bg-transito disabled-tile">
 <div><div class="tile-icon">🚰</div><div class="tile-title">Servicios Básicos</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 1.05em;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Control de agua, alcantarillado, redes eléctricas y telecomunicaciones.</div>
 </div>
 </div>
@@ -238,7 +239,7 @@ mosaico_html = """
 <div class="metro-tile bg-art disabled-tile">
 <div><div class="tile-icon">🎨</div><div class="tile-title">Cultura y Arte Urbano</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 1.05em;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Música, artes escénicas, grafiti y expresiones urbanas.</div>
 </div>
 </div>
@@ -246,7 +247,7 @@ mosaico_html = """
 <div class="metro-tile bg-turismo disabled-tile">
 <div><div class="tile-icon">🧘‍♀️</div><div class="tile-title">Deportes y Bienestar</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 1.05em;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Plataforma interactiva de yoga, fitness, wellness y actividades deportivas.</div>
 </div>
 </div>
