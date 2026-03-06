@@ -18,7 +18,7 @@ st.markdown("""
     .metro-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        /* CORRECCIÓN: Altura base mayor y capacidad de expandirse si el texto es muy largo */
+        /* Altura base mayor y capacidad de expandirse si el texto es muy largo */
         grid-auto-rows: minmax(180px, auto); 
         gap: 18px;
         padding: 20px 0;
@@ -94,7 +94,7 @@ st.markdown("""
     /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil) */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .metro-tile { min-height: 160px; } /* Ajuste preventivo para celular */
+        .metro-tile { min-height: 160px; } 
         
         .logo-muni { width: 45%; display: block; margin: 0 auto; }
         
@@ -169,8 +169,8 @@ mosaico_html = """
 <div class="metro-grid">
 
 <a href="https://puertaserena.streamlit.app/" target="_blank" class="metro-tile bg-alcaldia">
-<div><div class="tile-icon">🏛️</div><div class="tile-title">Control Edificio Consistorial</div></div>
-<div class="tile-subtitle">Seguridad, registro de visitas y panel de guardia.</div>
+<div><div class="tile-icon">🏛️</div><div class="tile-title">Control Acceso Visitas</div></div>
+<div class="tile-subtitle">Red de Recintos Municipales | I.M. La Serena</div>
 </a>
 
 <a href="https://vecinoslaserenachile-cloud.github.io/serenito-app/" target="_blank" class="metro-tile bg-turismo">
