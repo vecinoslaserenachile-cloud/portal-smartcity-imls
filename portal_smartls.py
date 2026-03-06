@@ -18,7 +18,8 @@ st.markdown("""
     .metro-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 160px; /* Altura aumentada para dar respiro al texto grande */
+        /* CORRECCIÓN: Altura base mayor y capacidad de expandirse si el texto es muy largo */
+        grid-auto-rows: minmax(180px, auto); 
         gap: 18px;
         padding: 20px 0;
     }
@@ -34,6 +35,7 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         border: 1px solid rgba(255,255,255,0.1);
+        height: 100%; /* Asegura que usen todo el espacio disponible */
     }
     
     .metro-tile * { text-decoration: none !important; color: white !important; }
@@ -92,7 +94,7 @@ st.markdown("""
     /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil) */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .metro-tile { min-height: 140px; } /* Ajustado por el nuevo tamaño de letra */
+        .metro-tile { min-height: 160px; } /* Ajuste preventivo para celular */
         
         .logo-muni { width: 45%; display: block; margin: 0 auto; }
         
