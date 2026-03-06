@@ -44,19 +44,16 @@ st.markdown("""
         filter: brightness(1.1);
     }
     
+    /* Baldosas en desarrollo: Más opacas y apagadas */
     .disabled-tile {
         cursor: default;
-        opacity: 0.85;
-        filter: grayscale(20%);
+        opacity: 0.5; /* 50% de transparencia */
+        filter: grayscale(50%); /* Tono más grisáceo */
     }
     
-    .tile-wide { grid-column: span 2; }
-    .tile-large { grid-column: span 2; grid-row: span 2; }
-    .tile-full { grid-column: span 3; }
-    
     .tile-icon { font-size: 2.4em; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-    .tile-title { font-weight: 700; font-size: 1.25em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-    .tile-subtitle { font-size: 0.85em; opacity: 0.9; font-weight: 400; }
+    .tile-title { font-weight: 700; font-size: 1.15em; line-height: 1.2; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+    .tile-subtitle { font-size: 0.8em; opacity: 0.9; font-weight: 400; line-height: 1.1; }
     
     .bg-alcaldia { background: linear-gradient(135deg, #1A365D 0%, #2B6CB0 100%); } 
     .bg-radio { background: linear-gradient(135deg, #C53030 0%, #E53E3E 100%); } 
@@ -94,7 +91,6 @@ st.markdown("""
     /* CIRUGÍA EXCLUSIVA PARA CELULARES (Móvil) */
     @media (max-width: 768px) {
         .metro-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
-        .tile-wide, .tile-large, .tile-full { grid-column: span 1; grid-row: span 1; }
         .metro-tile { min-height: 130px; }
         
         .logo-muni { width: 45%; display: block; margin: 0 auto; }
@@ -164,12 +160,12 @@ with col_qr:
 st.divider()
 
 # ==========================================
-# 4. CONSTRUCCIÓN DEL MOSAICO HTML
+# 4. CONSTRUCCIÓN DEL MOSAICO HTML (TODOS DE TAMAÑO EQUITATIVO)
 # ==========================================
 mosaico_html = """
 <div class="metro-grid">
 
-<a href="https://puertaserena.streamlit.app/" target="_blank" class="metro-tile tile-wide bg-alcaldia">
+<a href="https://puertaserena.streamlit.app/" target="_blank" class="metro-tile bg-alcaldia">
 <div><div class="tile-icon">🏛️</div><div class="tile-title">Control Edificio Consistorial</div></div>
 <div class="tile-subtitle">Seguridad, registro de visitas y panel de guardia.</div>
 </a>
@@ -179,7 +175,7 @@ mosaico_html = """
 <div class="tile-subtitle">Gestión interna de eventos, protocolo y relaciones públicas.</div>
 </a>
 
-<a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="metro-tile tile-large bg-radio">
+<a href="https://vecinoslaserenachile-cloud.github.io/RDMLS/" target="_blank" class="metro-tile bg-radio">
 <div><div class="tile-icon">📻</div><div class="tile-title">Plataforma RDMLS</div></div>
 <div class="tile-subtitle">Portal interactivo de la Radio Digital Municipal La Serena.</div>
 </a>
@@ -194,7 +190,7 @@ mosaico_html = """
 <div class="tile-subtitle">Capacitación y recursos formativos IMLS.</div>
 </a>
 
-<a href="https://honorarios-ls-me.streamlit.app/" target="_blank" class="metro-tile tile-wide bg-teal">
+<a href="https://honorarios-ls-me.streamlit.app/" target="_blank" class="metro-tile bg-teal">
 <div><div class="tile-icon">💼</div><div class="tile-title">Gestión de Honorarios</div></div>
 <div class="tile-subtitle">Plataforma administrativa de servicios a honorarios.</div>
 </a>
@@ -204,23 +200,7 @@ mosaico_html = """
 <div class="tile-subtitle">Escucha digital y tendencias en redes.</div>
 </a>
 
-<div class="metro-tile tile-wide bg-orange disabled-tile">
-<div><div class="tile-icon">🚧</div><div class="tile-title">Monitor Vial y Tránsito</div></div>
-<div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
-    <div class="tile-subtitle" style="margin-top: 4px;">Georeferenciación de baches, luminarias y vehículos.</div>
-</div>
-</div>
-
-<div class="metro-tile bg-eco disabled-tile">
-<div><div class="tile-icon">🌱</div><div class="tile-title">Cuidado Ambiental</div></div>
-<div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
-    <div class="tile-subtitle" style="margin-top: 4px;">Protección de humedales y entorno ecológico.</div>
-</div>
-</div>
-
-<a href="https://redvecinos-smart-imls.web.app/" target="_blank" class="metro-tile tile-wide bg-blue-neon">
+<a href="https://redvecinos-smart-imls.web.app/" target="_blank" class="metro-tile bg-blue-neon">
 <div><div class="tile-icon">🛡️</div><div class="tile-title">Acceso Municipal - Fiscalización</div></div>
 <div class="tile-subtitle">Portal exclusivo para funcionarios y Centro de Gestión.</div>
 </a>
@@ -230,26 +210,43 @@ mosaico_html = """
 <div class="tile-subtitle">Formulario de reporte in situ para recintos privados.</div>
 </a>
 
-<div class="metro-tile tile-wide bg-transito disabled-tile">
+
+<div class="metro-tile bg-orange disabled-tile">
+<div><div class="tile-icon">🚧</div><div class="tile-title">Monitor Vial y Tránsito</div></div>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Georeferenciación de baches, luminarias y vehículos.</div>
+</div>
+</div>
+
+<div class="metro-tile bg-eco disabled-tile">
+<div><div class="tile-icon">🌱</div><div class="tile-title">Cuidado Ambiental</div></div>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Protección de humedales y entorno ecológico.</div>
+</div>
+</div>
+
+<div class="metro-tile bg-transito disabled-tile">
 <div><div class="tile-icon">🚰</div><div class="tile-title">Servicios Básicos</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
-    <div class="tile-subtitle" style="margin-top: 4px;">Fiscalización de agua, alcantarillado, redes eléctricas y telecomunicaciones.</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Control de agua, alcantarillado, redes eléctricas y telecomunicaciones.</div>
 </div>
 </div>
 
 <div class="metro-tile bg-art disabled-tile">
 <div><div class="tile-icon">🎨</div><div class="tile-title">Cultura y Arte Urbano</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Música, artes escénicas, grafiti y expresiones urbanas.</div>
 </div>
 </div>
 
-<div class="metro-tile tile-full bg-turismo disabled-tile">
+<div class="metro-tile bg-turismo disabled-tile">
 <div><div class="tile-icon">🧘‍♀️</div><div class="tile-title">Deportes y Bienestar</div></div>
 <div>
-    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold;">⏳ Próximamente integrado...</div>
     <div class="tile-subtitle" style="margin-top: 4px;">Plataforma interactiva de yoga, fitness, wellness y actividades deportivas.</div>
 </div>
 </div>
