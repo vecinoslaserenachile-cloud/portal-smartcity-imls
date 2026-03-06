@@ -70,6 +70,7 @@ st.markdown("""
     .bg-darkred { background: linear-gradient(135deg, #742A2A 0%, #9B2C2C 100%); }
     .bg-eco { background: linear-gradient(135deg, #22543D 0%, #38A169 100%); } 
     .bg-blue-neon { background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); border: 1px solid #00ffcc;}
+    .bg-art { background: linear-gradient(135deg, #D53F8C 0%, #B83280 100%); }
     
     /* REGLAS INTACTAS PARA ESCRITORIO */
     .logo-muni { width: 100%; object-fit: contain; }
@@ -228,6 +229,30 @@ mosaico_html = """
 <div><div class="tile-icon">📱</div><div class="tile-title">Nueva Alerta de Seguridad</div></div>
 <div class="tile-subtitle">Formulario de reporte in situ para recintos privados.</div>
 </a>
+
+<div class="metro-tile tile-wide bg-transito disabled-tile">
+<div><div class="tile-icon">🚰</div><div class="tile-title">Servicios Básicos</div></div>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Fiscalización de agua, alcantarillado, redes eléctricas y telecomunicaciones.</div>
+</div>
+</div>
+
+<div class="metro-tile bg-art disabled-tile">
+<div><div class="tile-icon">🎨</div><div class="tile-title">Cultura y Arte Urbano</div></div>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Música, artes escénicas, grafiti y expresiones urbanas.</div>
+</div>
+</div>
+
+<div class="metro-tile tile-full bg-turismo disabled-tile">
+<div><div class="tile-icon">🧘‍♀️</div><div class="tile-title">Deportes y Bienestar</div></div>
+<div>
+    <div class="tile-subtitle" style="color: #FFD700 !important; font-weight: bold; font-size: 0.95em;">⏳ Próximamente integrado...</div>
+    <div class="tile-subtitle" style="margin-top: 4px;">Plataforma interactiva de yoga, fitness, wellness y actividades deportivas.</div>
+</div>
+</div>
 
 </div>
 """
